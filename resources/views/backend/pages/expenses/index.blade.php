@@ -49,7 +49,7 @@
                                                 @if($item->type == 'employee')
                                                     <span class="badge text-bg-primary">هزینه کارمند</span>
                                                 @elseif($item->type == 'shop')
-                                                    <span class="badge text-bg-warning">هزینه دکان</span>
+                                                    <span class="badge text-bg-warning">هزینه دفتر</span>
                                                 @else
                                                     <span class="badge text-bg-dark">برداشت کارمند</span>
                                                 @endif

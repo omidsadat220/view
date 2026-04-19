@@ -36,7 +36,7 @@
                                 <select name="type" id="typeSelect" class="form-control">
                                     <option value="employee">هزینه کارمند</option>
                                     <option value="shop">هزینه دفتر</option>
-                                    {{-- <option value="withdraw">برداشت کارمند</option> --}}
+                                    <option value="withdraw">برداشت کارمند</option>
                                 </select>
                             </div>
 
