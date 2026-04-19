@@ -140,91 +140,42 @@ class ReportsController extends Controller
     public function AllReport(){
         return view('backend.pages.reports.all_reports.all_reports');
     }
+public function SearchReportsByDate(Request $request)
+{
+    $request->validate([
+        'date' => 'required|date',
+    ]);
 
-    public function SearchReportsByDate(Request $request){
-        $request->validate([
-            'date' => 'required|date',
-        ]);
+    $date = $request->date;
 
-        $date = $request->date;
+    /* ===================== EXPENSES ===================== */
+    $allExpenses = Expense::with('employee')
+        ->whereDate('date', $date)
+        ->get();
 
-        $allExpenses = Expense::with('employee')->whereDate('date', $date)->get();
-        $dailyExpenses = $allExpenses
-            ->groupBy(fn($item) => $item->employee_id ?? 0)
-            ->map(function($group){
-                $first = $group->first();
-                return (object)[
-                    'employee_id' => $first->employee_id ?? 0,
-                    'last_date' => $group->max('date'),
-                    'total_expenses' => $group->count(),
-                    'total_amount' => $group->sum('amount'),
-                    'employee' => $first->employee ?? null,
-                    'all_expenses' => $group,
-                ];
-            });
-        $dailyExpensesTotal = $allExpenses->sum('amount');
+    $dailyExpenses = $allExpenses
+        ->groupBy(fn($item) => $item->employee_id ?? 0)
+        ->map(function ($group) {
 
-        // ----------------- Sales -----------------
-        $sales = Sale::with(['employee','product','category'])
-            ->whereIn('status',['completed','pending','cancelled']) // اضافه شد
-            ->whereDate('date', $date)
-            ->get();
+            $first = $group->first();
 
-        $dailySales = $sales
-            ->groupBy(fn($item) => $item->employee_id ?? 0)
-            ->map(function($group){
-                $first = $group->first();
+            return (object)[
+                'employee_id'    => $first->employee_id ?? 0,
+                'last_date'      => $group->max('date'),
+                'total_expenses' => $group->count(),
+                'total_amount'   => $group->sum('amount'),
+                'employee'       => $first->employee ?? null,
+                'all_expenses'   => $group,
+            ];
+        });
 
-                // اضافه شد
-                $completed = $group->where('status','completed');
+    $dailyExpensesTotal = $allExpenses->sum('amount');
 
-                return (object)[
-                    'employee' => $first->employee ?? null,
 
-                    // فقط completed
-                    'total_quantity' => $completed->sum('quantity'),
-
-                    // فقط completed
-                    'total_sales' => $completed->sum(fn($item) => $item->sale_price * $item->quantity),
-
-                    // همه status ها
-                    'total_charges' => $group->sum('charges'),
-
-                    // اضافه شد
-                    'profit' => $completed->sum(fn($item) =>
-                        ($item->sale_price * $item->quantity) -
-                        ($item->buy_price * $item->quantity)
-                    ),
-
-                    'all_sales' => $group,
-                ];
-            });
-
-        // ----------------- Sponsors -----------------
-        $sponsors = Sponser::with('employee','product')->whereDate('date', $date)->get();
-        $sponsorsTotal = $sponsors->sum('amount');
-        $sponsors = $sponsors
-            ->groupBy(fn($item) => $item->employee_id ?? 0)
-            ->map(function($group){
-                $first = $group->first();
-                return (object)[
-                    'employee' => $first->employee ?? null,
-                    'product' => $first->product ?? null,
-                    'amount' => $group->sum('amount'),
-                    'sponsor_quantity' => $group->count(),
-                    'date' => $group->max('date'),
-                ];
-            });
-
-        // ----------------- Calculations -----------------
-        $salesProfitTotal = $sales->where('status','completed') // اضافه شد
-            ->sum(fn($s) => ($s->sale_price * $s->quantity) - ($s->buy_price * $s->quantity) - ($s->charges ?? 0));
-
-        $finalAmount = $salesProfitTotal - $sponsorsTotal - $dailyExpensesTotal;
-
-        $products = Product::with('category')->get();
-
-         $products = Product::whereDate('created_at', Carbon::today())->get();
+    /* ===================== PRODUCTS ===================== */
+    $products = Product::with('category')
+        ->whereDate('created_at', $date)
+        ->get();
 
     $products = $products->map(function ($item) {
 
@@ -234,22 +185,38 @@ class ReportsController extends Controller
     });
 
 
+    /* ===================== PRODUCT TOTALS ===================== */
+    $totalPrice      = $products->sum('price');
+    $totalPaid       = $products->sum('paied');
+    $totalRemaining  = $products->sum('remaining');
 
 
-        return view('backend.pages.reports.all_reports.search_by_date', compact(
-            'dailyExpenses',
-            'dailyExpensesTotal',
-            'sales',
-            'dailySales',
-            'salesProfitTotal',
-            'finalAmount',
-            'date',
-            'products',
-            'sponsors',
-            'sponsorsTotal',
-            "products"
-        ));
-    }
+    /* ===================== TAX GROUP PAID ===================== */
+    $totalPaid35 = $products->where('tax', 35)->sum('paied');
+    $totalPaid45 = $products->where('tax', 45)->sum('paied');
+
+
+    /* ===================== FINAL PROFIT ===================== */
+    $finalProfit = $totalPaid - $dailyExpensesTotal;
+
+
+    return view('backend.pages.reports.all_reports.search_by_date', compact(
+        'date',
+        'products',
+
+        'dailyExpenses',
+        'dailyExpensesTotal',
+
+        'totalPrice',
+        'totalPaid',
+        'totalRemaining',
+
+        'totalPaid35',
+        'totalPaid45',
+
+        'finalProfit'
+    ));
+}
 
     public function AllReportsByMonth(Request $request){
         $request->validate([
