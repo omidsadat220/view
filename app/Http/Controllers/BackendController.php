@@ -127,13 +127,15 @@ class BackendController extends Controller
         // ✅ سود خالص واقعی امروز
         $todayProfit = $salesProfit - $todayExpenses - $todayWithdraw;
 
-        $totalStock = Product::sum('price');
-        $totalPaied = Product::sum('paied');
+        $totalStock = Product::where('tax','45')->sum('price');
+        $totalPaied = Product::where('tax','45')->sum('paied');
         
         $totalExpenses = DB::select('
-            SELECT SUM(categories.price) as total 
+             SELECT SUM(categories.price) as total 
             FROM category_product 
             INNER JOIN categories ON category_product.category_id = categories.id
+            INNER JOIN products ON category_product.product_id = products.id
+            WHERE products.tax = 45
         ')[0]->total ?? 0;
         
         $totalEmployees = Employee::count();

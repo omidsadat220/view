@@ -71,7 +71,7 @@
                             <div class="card-body">
                                 <div class="fs-14 mb-1">پول باقی مانده بالای مشتریان   </div>
                                 <div class="fs-22 fw-semibold text-primary">
-                                    {{ number_format($totalPaied - $totalExpenses) }}
+                                    {{ number_format($totalStock - $totalPaied) }}
                                 </div>
                             </div>
                         </div>
