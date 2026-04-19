@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Reports;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use App\Models\Expense;
+use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Sponser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class ReportsController extends Controller
 {
@@ -39,6 +41,8 @@ class ReportsController extends Controller
                     'all_expenses' => $group,
                 ];
             });
+
+        
 
         return view('backend.pages.reports.expenses.search_by_date', compact('expenses','dailyTotal'));
     }
@@ -218,6 +222,20 @@ class ReportsController extends Controller
 
         $finalAmount = $salesProfitTotal - $sponsorsTotal - $dailyExpensesTotal;
 
+        $products = Product::with('category')->get();
+
+         $products = Product::whereDate('created_at', Carbon::today())->get();
+
+    $products = $products->map(function ($item) {
+
+        $item->remaining = $item->price - $item->paied;
+
+        return $item;
+    });
+
+
+
+
         return view('backend.pages.reports.all_reports.search_by_date', compact(
             'dailyExpenses',
             'dailyExpensesTotal',
@@ -226,8 +244,10 @@ class ReportsController extends Controller
             'salesProfitTotal',
             'finalAmount',
             'date',
+            'products',
             'sponsors',
-            'sponsorsTotal'
+            'sponsorsTotal',
+            "products"
         ));
     }
 

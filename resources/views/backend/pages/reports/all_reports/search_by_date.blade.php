@@ -83,7 +83,7 @@
                 <div class="card shadow-sm">
 
                     <div class="card-header bg-info text-white">
-                        <h5 class="mb-0">گزارش فروش</h5>
+                        <h5 class="mb-0">گزارش محفل</h5>
                     </div>
 
                     <div class="card-body">
@@ -101,20 +101,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php $salesGrandTotal = 0; @endphp
-                                    @forelse ($dailySales->values() as $key => $sale)
+                                    @foreach ($products as  $key => $item)
                                         <tr>
                                             <td class="text-center">{{ $key + 1 }}</td>
-                                            <td class="text-center">{{ $sale->employee->name ?? 'N/A' }}</td>
-                                            <td class="text-center">{{ $sale->total_quantity ?? 0 }}</td>
-                                            <td class="text-center">{{ number_format($sale->total_sales ?? 0,2) }}</td>
-                                            <td class="text-center">
-                                                {{-- جمع مصارف همه وضعیت‌ها --}}
-                                                {{ number_format($sale->all_sales->sum('charges'),2) }}
-                                            </td>
-                                            <td class="text-center">
-                                                {{ number_format($sale->profit - $sale->total_charges,2) }}
-                                            </td>
+                                            <td class="text-center">{{ $item->name }}</td>
+                                            <td class="text-center">{{ $item->phone }}</td>
+                                            <td class="text-center">{{ $item->hall }}</td>
+                                            <td class="text-center">{{ $item->room }}</td>
+                                            <td class="text-center">{{ $item->category->name ?? 'ناموجود' }}</td>
+                                            <td class="text-center">{{ number_format($item->price, 2) }}</td>
+                                            <td class="text-center">{{ number_format($item->paied, 2) }}</td>
+                                            <td class="text-center">{{ number_format($item->remaining, 2) }}</td>
+                                            <td class="text-center">{{ number_format($item->tax, 2) }}</td>
+                                            
+                                            
                                             <td class="text-center">
                                                 <a href="{{ route('all.sales.invoice', [
                                                         'employee_id' => $sale->employee->id ?? 0,
@@ -125,24 +125,29 @@
                                                 </a>
                                             </td>
                                         </tr>
-                                        @php $salesGrandTotal += $sale->total_final ?? 0; @endphp
-                                    @empty
-                                        <tr>
-                                            <td colspan="8" class="text-center">فروشی وجود ندارد</td>
-                                        </tr>
-                                    @endforelse
+                                    @endforeach
+                                    
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th class="text-center" colspan="2">مجموعه:</th>
-                                        <th class="text-center" colspan="1">{{ $dailySales->sum('total_quantity') }}</th>
-                                        <th class="text-center">{{ number_format($dailySales->sum('total_sales'),2) }}</th>
-                                        <th class="text-center">{{ number_format($dailySales->sum('total_charges'),2) }}</th>
-                                        <th class="text-center" colspan="2">
-                                            {{-- جمع سود واقعی --}}
-                                            {{ number_format($dailySales->sum(fn($s) => $s->profit - $s->total_charges),2) }}
-                                        </th>
-                                    </tr>
+    <th class="text-center">مجموعه:</th>
+
+    <th class="text-center">
+        {{ number_format($products->sum('price'), 2) }}
+    </th>
+
+    <th class="text-center">
+        {{ number_format($products->sum('paied'), 2) }}
+    </th>
+
+    <th class="text-center">
+        {{ number_format($products->sum('remaining'), 2) }}
+    </th>
+
+    <th class="text-center">
+        {{ number_format($products->sum('tax'), 2) }}
+    </th>
+</tr>
                                 </tfoot>
                             </table>
                         </div>

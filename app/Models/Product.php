@@ -15,4 +15,11 @@ class Product extends Model
     public function sponsers(){
         return $this->hasMany(Sponser::class);
     }
+
+public function category()
+{
+    return $this->belongsTo(Category::class);
+}
+
+
 }
