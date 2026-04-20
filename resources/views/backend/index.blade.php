@@ -77,14 +77,14 @@
                         </div>
                     </div>
 
-                      <div class="col-md-6 col-xl-6">
+                    <div class="col-md-6 col-xl-6">
                         <div class="card">
                             <div class="card-body">
-                                <div class="fs-14 mb-1" style="color: white"><i class="fa-solid fa-users icon" style="color: #F5C542; margin-left:10px"></i> باقی مانده بالای مشتریان   </div>
-                                <div class="fs-22 fw-semibold text-primary" style="color: white">
+                                <div class="fs-14 mb-1" style="color: 062A29"><i class="fa-solid fa-users icon" style="color: #062A29; margin-left:10px"></i>    </div>
+                                <div class="fs-22 fw-semibold text-primary" style="color: #062A29;  ">
                                   
-                                    <h5 style="color: white">
-                                         {{ number_format($totalPaied - $totalExpenses) }}
+                                    <h5 style="color: #062A29 display: none" >
+                                        محافل هوتل تاج
                                     </h5>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="fs-14 mb-1"><i class="fa-solid fa-box-open icon" style="color: #F5C542; margin-left:10px"></i>  آمد مکمل محافل بیرونی </div>
-                                <div class="fs-22 fw-semibold" style="color: #F5C542">
+                                <div class="fs-22 fw-semibold" style="color: #062A29">
                                     {{ number_format($totalOutStock) }}
                                 </div>
                             </div>
@@ -180,11 +180,11 @@
                     <div class="col-md-6 col-xl-6">
                         <div class="card">
                             <div class="card-body">
-                                <div class="fs-14 mb-1" style="color: white"><i class="fa-solid fa-users icon" style="color: #F5C542; margin-left:10px"></i> باقی مانده بالای مشتریان   </div>
-                                <div class="fs-22 fw-semibold text-primary" style="color: white">
+                                <div class="fs-14 mb-1" style="color: 062A29"><i class="fa-solid fa-users icon" style="color: #062A29; margin-left:10px"></i>    </div>
+                                <div class="fs-22 fw-semibold text-primary" style="color: #062A29;  ">
                                   
-                                    <h5 style="color: white">
-                                         {{ number_format($totalPaied - $totalExpenses) }}
+                                    <h5 style="color: #062A29 display: none" >
+                                        محافل بیرونی
                                     </h5>
                                 </div>
                             </div>
