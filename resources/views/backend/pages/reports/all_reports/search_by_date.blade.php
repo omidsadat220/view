@@ -96,9 +96,8 @@
                                             <th>#</th>
                                             <th>نام </th>
                                             <th> شماره تماس</th>
-                                            <th>صالون</th>
-                                            <th> اتاق</th>
-                                            <th> دسته‌بندی</th>
+                                            <th>هوتل</th>
+                                            <th> صالون</th>
                                             <th> قیمت</th>
                                             <th> پرداخت شده</th>
                                             <th> باقیمانده</th>
@@ -114,7 +113,6 @@
                                                 <td class="text-center">{{ $item->lastname }}</td>
                                                 <td class="text-center">{{ $item->hall }}</td>
                                                 <td class="text-center">{{ $item->room }}</td>
-                                                <td class="text-center">{{ $item->category->name ?? 'ناموجود' }}</td>
                                                 <td class="text-center">{{ number_format($item->price, 2) }}</td>
                                                 <td class="text-center">{{ number_format($item->paied, 2) }}</td>
                                                 <td class="text-center">{{ number_format($item->remaining, 2) }}</td>
@@ -175,9 +173,8 @@
                                             <th>#</th>
                                             <th>نام </th>
                                             <th> شماره تماس</th>
-                                            <th>صالون</th>
-                                            <th> اتاق</th>
-                                            <th> دسته‌بندی</th>
+                                            <th>هوتل</th>
+                                            <th> صالون</th>
                                             <th> قیمت</th>
                                             <th> پرداخت شده</th>
                                             <th> باقیمانده</th>
@@ -193,7 +190,6 @@
                                                 <td class="text-center">{{ $item->lastname }}</td>
                                                 <td class="text-center">{{ $item->hall }}</td>
                                                 <td class="text-center">{{ $item->room }}</td>
-                                                <td class="text-center">{{ $item->category->name ?? 'ناموجود' }}</td>
                                                 <td class="text-center">{{ number_format($item->price, 2) }}</td>
                                                 <td class="text-center">{{ number_format($item->paied, 2) }}</td>
                                                 <td class="text-center">{{ number_format($item->remaining, 2) }}</td>
