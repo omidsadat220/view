@@ -29,8 +29,8 @@
                                     <img src="{{ (!empty($profileData->photo)) ? url('upload/profile/'.$profileData->photo) : url('upload/no_image.png')}}" class="rounded-circle avatar-xxl img-thumbnail float-start" alt="image profile">
 
                                     <div class="overflow-hidden ms-4">
-                                        <h4 class="m-0 text-dark fs-20">{{ $profileData->username }}</h4>
-                                        <p class="my-1 text-muted fs-16">{{ $profileData->email }}</p>
+                                        <h4 class="m-0 text-light fs-20">{{ $profileData->username }}</h4>
+                                        <p class="my-1 text-light fs-16">{{ $profileData->email }}</p>
                                     </div>
                                 </div>
                             </div>

@@ -1,4 +1,4 @@
-<div class="app-sidebar-menu">
+<div class="app-sidebar-menu" style="background-color: #062A29;">
     <div class="h-100" data-simplebar>
 
         <!--- Sidemenu -->
@@ -7,7 +7,7 @@
             <div class="logo-box d-flex justify-content-center align-items-center">
                 <a href="{{ route('dashboard') }}" class="logo logo-dark">
                     <span class="logo-lg">
-                        <img src="{{ asset('upload/logo/2.jpeg') }}" alt="" height="55">
+                        <img src="{{ asset('upload/logo/logo-view.png') }}" alt="" height="55">
                     </span>
                 </a>
             </div>

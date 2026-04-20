@@ -11,7 +11,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{{ asset('upload/logo/2.jpeg') }}">
+        <link rel="icon" href="{{ asset('upload/logo/favicon.ico') }}">
 
         <!-- App css -->
         <link href="{{ asset('backend/assets/css/app-rtl.min.css') }}" rel="stylesheet" type="text/css" id="app-style" />
@@ -20,6 +20,8 @@
 
         <!-- Icons -->
         <link href="{{ asset('backend/assets/css/icons-rtl.min.css') }}" rel="stylesheet" type="text/css" />
+        <!-- icon -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
         
 

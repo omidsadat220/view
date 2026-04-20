@@ -28,8 +28,9 @@
             <div class="row"> 
                 <div class="col-xl-12"> 
                     <div class="card"> 
-                        <div class="card-header"> 
-                        </div><!-- end card header -->
+                      <!-- <div class="card-header">
+                                        
+                                    </div> end card header -->
                         <div class="card-body"> 
                             <form action="{{ route('store.sponser') }}" method="post" class="row g-3" id="myForm" enctype="multipart/form-data"> 
                             @csrf
