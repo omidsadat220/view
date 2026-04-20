@@ -78,7 +78,7 @@
                 </div>
             </div>
 
-            {{-- ---------------- Sales Table ---------------- --}}
+            {{-- ---------------- Products Tax 45 Table ---------------- --}}
             <div class="row mt-4">
                 <div class="col-12">
                     <div class="card shadow-sm">
@@ -156,6 +156,8 @@
                     </div>
                 </div>
             </div>
+
+            {{-- ---------------- Products Tax 35 Table ---------------- --}}
 
             <div class="row mt-4">
                 <div class="col-12">

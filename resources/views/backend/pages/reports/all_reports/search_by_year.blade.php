@@ -1,4 +1,3 @@
-
 <style>
     @media print {
         .no-print {
@@ -60,7 +59,7 @@
                                             <td class="text-center">{{ $key + 1 }}</td>
                                             <td class="text-center">{{ $item->last_date }}</td>
                                             <td class="text-center">
-                                                @if($item->all_expenses->first()->type == 'withdraw')
+                                                @if ($item->all_expenses->first()->type == 'withdraw')
                                                     {{ $item->employee->name ?? 'N/A' }}
                                                 @elseif($item->employee_id)
                                                     {{ $item->employee->name ?? 'N/A' }}
@@ -69,12 +68,12 @@
                                                 @endif
                                             </td>
                                             <td class="text-center">{{ $item->total_expenses }}</td>
-                                            <td class="text-center">{{ number_format($item->total_amount,2) }}</td>
+                                            <td class="text-center">{{ number_format($item->total_amount, 2) }}</td>
                                             <td class="text-center">
                                                 <a href="{{ route('all.expenses.invoice', [
-                                                        'employee_id' => $item->employee_id ?: 0,
-                                                        'year' => $year
-                                                    ]) }}" 
+                                                    'employee_id' => $item->employee_id ?: 0,
+                                                    'year' => $year,
+                                                ]) }}"
                                                     class="btn btn-success btn-sm">
                                                     مشاهده مصارف
                                                 </a>
@@ -89,7 +88,8 @@
                                 <tfoot>
                                     <tr>
                                         <th colspan="4" class="text-center">مجموع مصارف:</th>
-                                        <th colspan="2" class="text-center">{{ number_format($dailyExpensesTotal ?? 0,2) }}</th>
+                                        <th colspan="2" class="text-center">
+                                            {{ number_format($dailyExpensesTotal ?? 0, 2) }}</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -99,49 +99,49 @@
             </div>
         </div>
 
-        {{-- ---------------- Sales Table ---------------- --}}
+        {{-- ---------------- Products Tax 45 Table ---------------- --}}
         <div class="row mt-4">
-                <div class="col-12">
-                    <div class="card shadow-sm">
+            <div class="col-12">
+                <div class="card shadow-sm">
 
-                        <div class="card-header bg-info text-white">
-                            <h5 class="mb-0">45 گزارش مالیه </h5>
-                        </div>
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">45 گزارش مالیه </h5>
+                    </div>
 
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="datatable-sales" class="table table-bordered align-middle text-nowrap w-100">
-                                    <thead class="table-light">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="datatable-sales" class="table table-bordered align-middle text-nowrap w-100">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>نام </th>
+                                        <th> شماره تماس</th>
+                                        <th>صالون</th>
+                                        <th> اتاق</th>
+                                        <th> دسته‌بندی</th>
+                                        <th> قیمت</th>
+                                        <th> پرداخت شده</th>
+                                        <th> باقیمانده</th>
+                                        <th>مالیه</th>
+                                        {{-- <th>عملیات</th> --}}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($products->where('tax', 45) as $key => $item)
                                         <tr>
-                                            <th>#</th>
-                                            <th>نام </th>
-                                            <th> شماره تماس</th>
-                                            <th>صالون</th>
-                                            <th> اتاق</th>
-                                            <th> دسته‌بندی</th>
-                                            <th> قیمت</th>
-                                            <th> پرداخت شده</th>
-                                            <th> باقیمانده</th>
-                                            <th>مالیه</th>
-                                            {{-- <th>عملیات</th> --}}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($products->where('tax', 45) as $key => $item)
-                                            <tr>
-                                                <td class="text-center">{{ $key + 1 }}</td>
-                                                <td class="text-center">{{ $item->name }}</td>
-                                                <td class="text-center">{{ $item->lastname }}</td>
-                                                <td class="text-center">{{ $item->hall }}</td>
-                                                <td class="text-center">{{ $item->room }}</td>
-                                                <td class="text-center">{{ $item->category->name ?? 'ناموجود' }}</td>
-                                                <td class="text-center">{{ number_format($item->price, 2) }}</td>
-                                                <td class="text-center">{{ number_format($item->paied, 2) }}</td>
-                                                <td class="text-center">{{ number_format($item->remaining, 2) }}</td>
-                                                <td class="text-center">{{ number_format($item->tax, 2) }}</td>
+                                            <td class="text-center">{{ $key + 1 }}</td>
+                                            <td class="text-center">{{ $item->name }}</td>
+                                            <td class="text-center">{{ $item->lastname }}</td>
+                                            <td class="text-center">{{ $item->hall }}</td>
+                                            <td class="text-center">{{ $item->room }}</td>
+                                            <td class="text-center">{{ $item->category->name ?? 'ناموجود' }}</td>
+                                            <td class="text-center">{{ number_format($item->price, 2) }}</td>
+                                            <td class="text-center">{{ number_format($item->paied, 2) }}</td>
+                                            <td class="text-center">{{ number_format($item->remaining, 2) }}</td>
+                                            <td class="text-center">{{ number_format($item->tax, 2) }}</td>
 
 
-                                                {{-- <td class="text-center">
+                                            {{-- <td class="text-center">
                                                     <a href="{{ route('all.sales.invoice', [
                                                         'employee_id' => $sale->employee->id ?? 0,
                                                         'year' => $year,
@@ -150,77 +150,77 @@
                                                         مشاهده فروش‌ها
                                                     </a>
                                                 </td> --}}
-                                            </tr>
-                                        @endforeach
+                                        </tr>
+                                    @endforeach
 
-                                    </tbody>
-                               <tfoot class="table-info">
+                                </tbody>
+                                <tfoot class="table-info">
 
-                                <tr>
-                                                                    <th>مجموع</th>
-                                                                    <th>پرداخت شده</th>
-                                                                    <th>باقیمانده</th>
-                                                                    <th>مالیه</th>
+                                    <tr>
+                                        <th>مجموع</th>
+                                        <th>پرداخت شده</th>
+                                        <th>باقیمانده</th>
+                                        <th>مالیه</th>
 
-                                </tr>
-                            <tr>
-                                <th>{{ number_format($products->where('tax',45)->sum('price'),2) }}</th>
-                                <th>{{ number_format($products->where('tax',45)->sum('paied'),2) }}</th>
-                                <th>{{ number_format($products->where('tax',45)->sum('remaining'),2) }}</th>
-                                <th>{{ number_format(45,2) }}</th>
-                            </tr>
-                        </tfoot>
-                                </table>
-                            </div>
+                                    </tr>
+                                    <tr>
+                                        <th>{{ number_format($products->where('tax', 45)->sum('price'), 2) }}</th>
+                                        <th>{{ number_format($products->where('tax', 45)->sum('paied'), 2) }}</th>
+                                        <th>{{ number_format($products->where('tax', 45)->sum('remaining'), 2) }}</th>
+                                        <th>{{ number_format(45, 2) }}</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
-
                     </div>
+
                 </div>
             </div>
+        </div>
 
-        {{-- ---------------- Sponsors Table ---------------- --}}
-         <div class="row mt-4">
-                <div class="col-12">
-                    <div class="card shadow-sm">
+        {{-- ---------------- Products Tax 35 Table ---------------- --}}
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
 
-                        <div class="card-header bg-info text-white">
-                            <h5 class="mb-0">35 گزارش مالیه </h5>
-                        </div>
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">35 گزارش مالیه </h5>
+                    </div>
 
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="datatable-sales" class="table table-bordered align-middle text-nowrap w-100">
-                                    <thead class="table-light">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="datatable-sales" class="table table-bordered align-middle text-nowrap w-100">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>نام </th>
+                                        <th> شماره تماس</th>
+                                        <th>صالون</th>
+                                        <th> اتاق</th>
+                                        <th> دسته‌بندی</th>
+                                        <th> قیمت</th>
+                                        <th> پرداخت شده</th>
+                                        <th> باقیمانده</th>
+                                        <th>مالیه</th>
+                                        {{-- <th>عملیات</th> --}}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($products->where('tax', 35) as $key => $item)
                                         <tr>
-                                            <th>#</th>
-                                            <th>نام </th>
-                                            <th> شماره تماس</th>
-                                            <th>صالون</th>
-                                            <th> اتاق</th>
-                                            <th> دسته‌بندی</th>
-                                            <th> قیمت</th>
-                                            <th> پرداخت شده</th>
-                                            <th> باقیمانده</th>
-                                            <th>مالیه</th>
-                                            {{-- <th>عملیات</th> --}}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($products->where('tax', 35) as $key => $item)
-                                            <tr>
-                                                <td class="text-center">{{ $key + 1 }}</td>
-                                                <td class="text-center">{{ $item->name }}</td>
-                                                <td class="text-center">{{ $item->lastname }}</td>
-                                                <td class="text-center">{{ $item->hall }}</td>
-                                                <td class="text-center">{{ $item->room }}</td>
-                                                <td class="text-center">{{ $item->category->name ?? 'ناموجود' }}</td>
-                                                <td class="text-center">{{ number_format($item->price, 2) }}</td>
-                                                <td class="text-center">{{ number_format($item->paied, 2) }}</td>
-                                                <td class="text-center">{{ number_format($item->remaining, 2) }}</td>
-                                                <td class="text-center">{{ number_format($item->tax, 2) }}</td>
+                                            <td class="text-center">{{ $key + 1 }}</td>
+                                            <td class="text-center">{{ $item->name }}</td>
+                                            <td class="text-center">{{ $item->lastname }}</td>
+                                            <td class="text-center">{{ $item->hall }}</td>
+                                            <td class="text-center">{{ $item->room }}</td>
+                                            <td class="text-center">{{ $item->category->name ?? 'ناموجود' }}</td>
+                                            <td class="text-center">{{ number_format($item->price, 2) }}</td>
+                                            <td class="text-center">{{ number_format($item->paied, 2) }}</td>
+                                            <td class="text-center">{{ number_format($item->remaining, 2) }}</td>
+                                            <td class="text-center">{{ number_format($item->tax, 2) }}</td>
 
 
-                                                {{-- <td class="text-center">
+                                            {{-- <td class="text-center">
                                                     <a href="{{ route('all.sales.invoice', [
                                                         'employee_id' => $sale->employee->id ?? 0,
                                                         'year' => $year,
@@ -229,99 +229,102 @@
                                                         مشاهده فروش‌ها
                                                     </a>
                                                 </td> --}}
-                                            </tr>
-                                        @endforeach
+                                        </tr>
+                                    @endforeach
 
-                                    </tbody>
-                                  <tfoot class="table-warning">
+                                </tbody>
+                                <tfoot class="table-warning">
 
-                                      <tr>
-                                                                    <th>مجموع</th>
-                                                                    <th>پرداخت شده</th>
-                                                                    <th>باقیمانده</th>
-                                                                    <th>مالیه</th>
+                                    <tr>
+                                        <th>مجموع</th>
+                                        <th>پرداخت شده</th>
+                                        <th>باقیمانده</th>
+                                        <th>مالیه</th>
 
-                                </tr>
+                                    </tr>
 
-                            <tr>
-                                <th>{{ number_format($products->where('tax',35)->sum('price'),2) }}</th>
-                                <th>{{ number_format($products->where('tax',35)->sum('paied'),2) }}</th>
-                                <th>{{ number_format($products->where('tax',35)->sum('remaining'),2) }}</th>
-                                <th>{{ number_format(35,2) }}</th>
-                            </tr>
-                        </tfoot>
-                                </table>
-                            </div>
+                                    <tr>
+                                        <th>{{ number_format($products->where('tax', 35)->sum('price'), 2) }}</th>
+                                        <th>{{ number_format($products->where('tax', 35)->sum('paied'), 2) }}</th>
+                                        <th>{{ number_format($products->where('tax', 35)->sum('remaining'), 2) }}</th>
+                                        <th>{{ number_format(35, 2) }}</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
-
                     </div>
+
                 </div>
             </div>
+        </div>
 
 
         {{-- ---------------- Summary Card ---------------- --}}
-      <div class="row mt-4">
-    <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+        <div class="row mt-4">
+            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
 
-        <div class="card shadow-sm w-100 border-0">
-            <div class="card-header bg-primary text-white text-center">
-                <h5 class="mb-0">خلاصه راپور روزانه</h5>
-            </div>
-
-            <div class="card-body">
-
-                <div class="p-3 rounded" style="background:#f8f9fa;">
-
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>جمع قیمت :</span>
-                        <strong>{{ number_format($totalPrice, 2) }}</strong>
+                <div class="card shadow-sm w-100 border-0">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h5 class="mb-0">خلاصه راپور روزانه</h5>
                     </div>
 
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>جمع پرداخت شده :</span>
-                        <strong>{{ number_format($totalPaid, 2) }}</strong>
+                    <div class="card-body">
+
+                        <div class="p-3 rounded" style="background:#f8f9fa;">
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>جمع قیمت :</span>
+                                <strong>{{ number_format($totalPrice, 2) }}</strong>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>جمع پرداخت شده :</span>
+                                <strong>{{ number_format($totalPaid, 2) }}</strong>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>جمع باقی مانده :</span>
+                                <strong>{{ number_format($totalRemaining, 2) }}</strong>
+                            </div>
+
+                            <hr>
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>پرداخت مالیه 35 :</span>
+                                <strong class="text-success">
+                                    {{ number_format($totalPaid35, 2) }}
+                                </strong>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>پرداخت مالیه 45 :</span>
+                                <strong class="text-info">
+                                    {{ number_format($totalPaid45, 2) }}
+                                </strong>
+                            </div>
+
+                            <hr>
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>جمع مصارف :</span>
+                                <strong class="text-danger">
+                                    {{ number_format($dailyExpensesTotal, 2) }}
+                                </strong>
+                            </div>
+
+                            <hr>
+
+                            <div class="d-flex justify-content-between">
+                                <span>مفاد نهایی :</span>
+
+                                <strong class="{{ $finalProfit >= 0 ? 'text-primary' : 'text-danger' }}">
+                                    {{ number_format($finalProfit, 2) }}
+                                </strong>
+                            </div>
+
+                        </div>
+
                     </div>
-
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>جمع باقی مانده :</span>
-                        <strong>{{ number_format($totalRemaining, 2) }}</strong>
-                    </div>
-
-                    <hr>
-
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>پرداخت مالیه 35 :</span>
-                        <strong class="text-success">
-                            {{ number_format($totalPaid35, 2) }}
-                        </strong>
-                    </div>
-
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>پرداخت مالیه 45 :</span>
-                        <strong class="text-info">
-                            {{ number_format($totalPaid45, 2) }}
-                        </strong>
-                    </div>
-
-                    <hr>
-
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>جمع مصارف :</span>
-                        <strong class="text-danger">
-                            {{ number_format($dailyExpensesTotal, 2) }}
-                        </strong>
-                    </div>
-
-                    <hr>
-
-                    <div class="d-flex justify-content-between">
-                        <span>مفاد نهایی :</span>
-
-                        <strong class="{{ $finalProfit >= 0 ? 'text-primary' : 'text-danger' }}">
-                            {{ number_format($finalProfit, 2) }}
-                        </strong>
-                    </div>
-
                 </div>
 
             </div>
@@ -330,13 +333,8 @@
     </div>
 </div>
 
-    </div>
+<div class="no-print mt-2 mt-md-0">
+    <button onclick="window.print()" class="btn btn-danger shadow-sm">
+        <i class="fas fa-print me-1"></i> چاپ راپور
+    </button>
 </div>
-
-  <div class="no-print mt-2 mt-md-0">
-            <button onclick="window.print()" class="btn btn-danger shadow-sm">
-                <i class="fas fa-print me-1"></i> چاپ راپور
-            </button>
-        </div>
-
-        
