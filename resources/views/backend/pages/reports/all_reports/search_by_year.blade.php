@@ -123,7 +123,7 @@
                                             <th> پرداخت شده</th>
                                             <th> باقیمانده</th>
                                             <th>مالیه</th>
-                                            <th>عملیات</th>
+                                            {{-- <th>عملیات</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -141,7 +141,7 @@
                                                 <td class="text-center">{{ number_format($item->tax, 2) }}</td>
 
 
-                                                <td class="text-center">
+                                                {{-- <td class="text-center">
                                                     <a href="{{ route('all.sales.invoice', [
                                                         'employee_id' => $sale->employee->id ?? 0,
                                                         'year' => $year,
@@ -149,7 +149,7 @@
                                                         class="btn btn-success btn-sm">
                                                         مشاهده فروش‌ها
                                                     </a>
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         @endforeach
 
@@ -202,7 +202,7 @@
                                             <th> پرداخت شده</th>
                                             <th> باقیمانده</th>
                                             <th>مالیه</th>
-                                            <th>عملیات</th>
+                                            {{-- <th>عملیات</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -220,7 +220,7 @@
                                                 <td class="text-center">{{ number_format($item->tax, 2) }}</td>
 
 
-                                                <td class="text-center">
+                                                {{-- <td class="text-center">
                                                     <a href="{{ route('all.sales.invoice', [
                                                         'employee_id' => $sale->employee->id ?? 0,
                                                         'year' => $year,
@@ -228,7 +228,7 @@
                                                         class="btn btn-success btn-sm">
                                                         مشاهده فروش‌ها
                                                     </a>
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         @endforeach
 

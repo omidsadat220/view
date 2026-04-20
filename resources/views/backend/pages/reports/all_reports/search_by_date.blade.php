@@ -80,7 +80,7 @@
 
             {{-- ---------------- Sales Table ---------------- --}}
 
-                    <div class="row mt-4">
+            <div class="row mt-4">
                 <div class="col-12">
                     <div class="card shadow-sm">
 
@@ -103,7 +103,7 @@
                                             <th> پرداخت شده</th>
                                             <th> باقیمانده</th>
                                             <th>مالیه</th>
-                                            <th>عملیات</th>
+                                            {{-- <th>عملیات</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -121,7 +121,7 @@
                                                 <td class="text-center">{{ number_format($item->tax, 2) }}</td>
 
 
-                                                <td class="text-center">
+                                                {{-- <td class="text-center">
                                                     <a href="{{ route('all.sales.invoice', [
                                                         'employee_id' => $sale->employee->id ?? 0,
                                                         'date' => $date,
@@ -129,27 +129,27 @@
                                                         class="btn btn-success btn-sm">
                                                         مشاهده فروش‌ها
                                                     </a>
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         @endforeach
 
                                     </tbody>
-                               <tfoot class="table-info">
+                                    <tfoot class="table-info">
 
-                                <tr>
-                                                                    <th>مجموع</th>
-                                                                    <th>پرداخت شده</th>
-                                                                    <th>باقیمانده</th>
-                                                                    <th>مالیه</th>
+                                        <tr>
+                                            <th>مجموع</th>
+                                            <th>پرداخت شده</th>
+                                            <th>باقیمانده</th>
+                                            <th>مالیه</th>
 
-                                </tr>
-                            <tr>
-                                <th>{{ number_format($products->where('tax',45)->sum('price'),2) }}</th>
-                                <th>{{ number_format($products->where('tax',45)->sum('paied'),2) }}</th>
-                                <th>{{ number_format($products->where('tax',45)->sum('remaining'),2) }}</th>
-                                <th>{{ number_format(45,2) }}</th>
-                            </tr>
-                        </tfoot>
+                                        </tr>
+                                        <tr>
+                                            <th>{{ number_format($products->where('tax', 45)->sum('price'), 2) }}</th>
+                                            <th>{{ number_format($products->where('tax', 45)->sum('paied'), 2) }}</th>
+                                            <th>{{ number_format($products->where('tax', 45)->sum('remaining'), 2) }}</th>
+                                            <th>{{ number_format(45, 2) }}</th>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -182,7 +182,7 @@
                                             <th> پرداخت شده</th>
                                             <th> باقیمانده</th>
                                             <th>مالیه</th>
-                                            <th>عملیات</th>
+                                            {{-- <th>عملیات</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -200,7 +200,7 @@
                                                 <td class="text-center">{{ number_format($item->tax, 2) }}</td>
 
 
-                                                <td class="text-center">
+                                                {{-- <td class="text-center">
                                                     <a href="{{ route('all.sales.invoice', [
                                                         'employee_id' => $sale->employee->id ?? 0,
                                                         'date' => $date,
@@ -208,28 +208,28 @@
                                                         class="btn btn-success btn-sm">
                                                         مشاهده فروش‌ها
                                                     </a>
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         @endforeach
 
                                     </tbody>
-                                  <tfoot class="table-warning">
+                                    <tfoot class="table-warning">
 
-                                      <tr>
-                                                                    <th>مجموع</th>
-                                                                    <th>پرداخت شده</th>
-                                                                    <th>باقیمانده</th>
-                                                                    <th>مالیه</th>
+                                        <tr>
+                                            <th>مجموع</th>
+                                            <th>پرداخت شده</th>
+                                            <th>باقیمانده</th>
+                                            <th>مالیه</th>
 
-                                </tr>
+                                        </tr>
 
-                            <tr>
-                                <th>{{ number_format($products->where('tax',35)->sum('price'),2) }}</th>
-                                <th>{{ number_format($products->where('tax',35)->sum('paied'),2) }}</th>
-                                <th>{{ number_format($products->where('tax',35)->sum('remaining'),2) }}</th>
-                                <th>{{ number_format(35,2) }}</th>
-                            </tr>
-                        </tfoot>
+                                        <tr>
+                                            <th>{{ number_format($products->where('tax', 35)->sum('price'), 2) }}</th>
+                                            <th>{{ number_format($products->where('tax', 35)->sum('paied'), 2) }}</th>
+                                            <th>{{ number_format($products->where('tax', 35)->sum('remaining'), 2) }}</th>
+                                            <th>{{ number_format(35, 2) }}</th>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -238,77 +238,77 @@
                 </div>
             </div>
 
-           
+
             {{-- ---------------- Summary Card ---------------- --}}
-<div class="row mt-4">
-    <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+            <div class="row mt-4">
+                <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
 
-        <div class="card shadow-sm w-100 border-0">
-            <div class="card-header bg-primary text-white text-center">
-                <h5 class="mb-0">خلاصه راپور روزانه</h5>
-            </div>
+                    <div class="card shadow-sm w-100 border-0">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h5 class="mb-0">خلاصه راپور روزانه</h5>
+                        </div>
 
-            <div class="card-body">
+                        <div class="card-body">
 
-                <div class="p-3 rounded" style="background:#f8f9fa;">
+                            <div class="p-3 rounded" style="background:#f8f9fa;">
 
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>جمع قیمت :</span>
-                        <strong>{{ number_format($totalPrice, 2) }}</strong>
-                    </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>جمع قیمت :</span>
+                                    <strong>{{ number_format($totalPrice, 2) }}</strong>
+                                </div>
 
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>جمع پرداخت شده :</span>
-                        <strong>{{ number_format($totalPaid, 2) }}</strong>
-                    </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>جمع پرداخت شده :</span>
+                                    <strong>{{ number_format($totalPaid, 2) }}</strong>
+                                </div>
 
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>جمع باقی مانده :</span>
-                        <strong>{{ number_format($totalRemaining, 2) }}</strong>
-                    </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>جمع باقی مانده :</span>
+                                    <strong>{{ number_format($totalRemaining, 2) }}</strong>
+                                </div>
 
-                    <hr>
+                                <hr>
 
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>پرداخت مالیه 35 :</span>
-                        <strong class="text-success">
-                            {{ number_format($totalPaid35, 2) }}
-                        </strong>
-                    </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>پرداخت مالیه 35 :</span>
+                                    <strong class="text-success">
+                                        {{ number_format($totalPaid35, 2) }}
+                                    </strong>
+                                </div>
 
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>پرداخت مالیه 45 :</span>
-                        <strong class="text-info">
-                            {{ number_format($totalPaid45, 2) }}
-                        </strong>
-                    </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>پرداخت مالیه 45 :</span>
+                                    <strong class="text-info">
+                                        {{ number_format($totalPaid45, 2) }}
+                                    </strong>
+                                </div>
 
-                    <hr>
+                                <hr>
 
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>جمع مصارف :</span>
-                        <strong class="text-danger">
-                            {{ number_format($dailyExpensesTotal, 2) }}
-                        </strong>
-                    </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>جمع مصارف :</span>
+                                    <strong class="text-danger">
+                                        {{ number_format($dailyExpensesTotal, 2) }}
+                                    </strong>
+                                </div>
 
-                    <hr>
+                                <hr>
 
-                    <div class="d-flex justify-content-between">
-                        <span>مفاد نهایی :</span>
+                                <div class="d-flex justify-content-between">
+                                    <span>مفاد نهایی :</span>
 
-                        <strong class="{{ $finalProfit >= 0 ? 'text-primary' : 'text-danger' }}">
-                            {{ number_format($finalProfit, 2) }}
-                        </strong>
+                                    <strong class="{{ $finalProfit >= 0 ? 'text-primary' : 'text-danger' }}">
+                                        {{ number_format($finalProfit, 2) }}
+                                    </strong>
+                                </div>
+
+                            </div>
+
+                        </div>
                     </div>
 
                 </div>
-
             </div>
-        </div>
-
-    </div>
-</div>
 
         </div>
     </div>
