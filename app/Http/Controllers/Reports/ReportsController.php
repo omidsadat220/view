@@ -13,11 +13,13 @@ use Illuminate\Support\Carbon;
 
 class ReportsController extends Controller
 {
-    public function AllExpensesReport(){
+    public function AllExpensesReport()
+    {
         return view('backend.pages.reports.expenses.all_expenses');
     }
 
-    public function SearchExpensesByDate(Request $request){
+    public function SearchExpensesByDate(Request $request)
+    {
         $request->validate([
             'date' => 'required|date',
         ]);
@@ -30,7 +32,7 @@ class ReportsController extends Controller
 
         $expenses = $allExpenses
             ->groupBy(fn($item) => $item->employee_id ?? 0)
-            ->map(function($group) {
+            ->map(function ($group) {
                 $first = $group->first();
                 return (object)[
                     'employee_id' => $first->employee_id ?? 0,
@@ -42,19 +44,20 @@ class ReportsController extends Controller
                 ];
             });
 
-        
 
-        return view('backend.pages.reports.expenses.search_by_date', compact('expenses','dailyTotal'));
+
+        return view('backend.pages.reports.expenses.search_by_date', compact('expenses', 'dailyTotal'));
     }
 
-    public function AllExpensesInvoice(Request $request, $employee_id = 0){
-        $year = $request->year; 
+    public function AllExpensesInvoice(Request $request, $employee_id = 0)
+    {
+        $year = $request->year;
         $month = $request->month;
         $date = $request->date;
         $query = Expense::query();
 
         if ($year) {
-            $query->whereYear('date', $year); 
+            $query->whereYear('date', $year);
         }
 
         if ($month) {
@@ -62,7 +65,7 @@ class ReportsController extends Controller
         }
 
         if ($date) {
-            $query->whereDate('date', $date); 
+            $query->whereDate('date', $date);
         }
 
         if ($employee_id) {
@@ -76,7 +79,8 @@ class ReportsController extends Controller
         return view('backend.pages.reports.expenses.invoice', compact('expenses'));
     }
 
-    public function AllExpensesByMonth(Request $request){
+    public function AllExpensesByMonth(Request $request)
+    {
         $request->validate([
             'month' => 'required|integer|min:1|max:12',
         ]);
@@ -91,7 +95,7 @@ class ReportsController extends Controller
 
         $expenses = $allExpenses
             ->groupBy(fn($item) => $item->employee_id ?? 0)
-            ->map(function($group) {
+            ->map(function ($group) {
                 $first = $group->first();
                 return (object)[
                     'employee_id' => $first->employee_id ?? 0,
@@ -103,10 +107,11 @@ class ReportsController extends Controller
                 ];
             });
 
-        return view('backend.pages.reports.expenses.search_by_month', compact('expenses','monthlyTotal'));
+        return view('backend.pages.reports.expenses.search_by_month', compact('expenses', 'monthlyTotal'));
     }
 
-    public function AllExpensesByYear(Request $request){
+    public function AllExpensesByYear(Request $request)
+    {
         $request->validate([
             'year' => 'required|integer|min:2025|max:2030',
         ]);
@@ -121,7 +126,7 @@ class ReportsController extends Controller
 
         $expenses = $allExpenses
             ->groupBy(fn($item) => $item->employee_id ?? 0)
-            ->map(function($group) {
+            ->map(function ($group) {
                 $first = $group->first();
                 return (object)[
                     'employee_id' => $first->employee_id ?? 0,
@@ -133,92 +138,94 @@ class ReportsController extends Controller
                 ];
             });
 
-        return view('backend.pages.reports.expenses.search_by_year', compact('expenses','yearlyTotal','year'));
+        return view('backend.pages.reports.expenses.search_by_year', compact('expenses', 'yearlyTotal', 'year'));
     }
 
     // -------- All Reports -------
-    public function AllReport(){
+    public function AllReport()
+    {
         return view('backend.pages.reports.all_reports.all_reports');
     }
-public function SearchReportsByDate(Request $request)
-{
-    $request->validate([
-        'date' => 'required|date',
-    ]);
+    public function SearchReportsByDate(Request $request)
+    {
+        $request->validate([
+            'date' => 'required|date',
+        ]);
 
-    $date = $request->date;
+        $date = $request->date;
 
-    /* ===================== EXPENSES ===================== */
-    $allExpenses = Expense::with('employee')
-        ->whereDate('date', $date)
-        ->get();
+        /* ===================== EXPENSES ===================== */
+        $allExpenses = Expense::with('employee')
+            ->whereDate('date', $date)
+            ->get();
 
-    $dailyExpenses = $allExpenses
-        ->groupBy(fn($item) => $item->employee_id ?? 0)
-        ->map(function ($group) {
+        $dailyExpenses = $allExpenses
+            ->groupBy(fn($item) => $item->employee_id ?? 0)
+            ->map(function ($group) {
 
-            $first = $group->first();
+                $first = $group->first();
 
-            return (object)[
-                'employee_id'    => $first->employee_id ?? 0,
-                'last_date'      => $group->max('date'),
-                'total_expenses' => $group->count(),
-                'total_amount'   => $group->sum('amount'),
-                'employee'       => $first->employee ?? null,
-                'all_expenses'   => $group,
-            ];
+                return (object)[
+                    'employee_id'    => $first->employee_id ?? 0,
+                    'last_date'      => $group->max('date'),
+                    'total_expenses' => $group->count(),
+                    'total_amount'   => $group->sum('amount'),
+                    'employee'       => $first->employee ?? null,
+                    'all_expenses'   => $group,
+                ];
+            });
+
+        $dailyExpensesTotal = $allExpenses->sum('amount');
+
+
+        /* ===================== PRODUCTS ===================== */
+        $products = Product::with('category')
+            ->whereDate('created_at', $date)
+            ->get();
+
+        $products = $products->map(function ($item) {
+
+            $item->remaining = $item->price - $item->paied;
+
+            return $item;
         });
 
-    $dailyExpensesTotal = $allExpenses->sum('amount');
+
+        /* ===================== PRODUCT TOTALS ===================== */
+        $totalPrice      = $products->sum('price');
+        $totalPaid       = $products->sum('paied');
+        $totalRemaining  = $products->sum('remaining');
 
 
-    /* ===================== PRODUCTS ===================== */
-    $products = Product::with('category')
-        ->whereDate('created_at', $date)
-        ->get();
-
-    $products = $products->map(function ($item) {
-
-        $item->remaining = $item->price - $item->paied;
-
-        return $item;
-    });
+        /* ===================== TAX GROUP PAID ===================== */
+        $totalPaid35 = $products->where('tax', 35)->sum('paied');
+        $totalPaid45 = $products->where('tax', 45)->sum('paied');
 
 
-    /* ===================== PRODUCT TOTALS ===================== */
-    $totalPrice      = $products->sum('price');
-    $totalPaid       = $products->sum('paied');
-    $totalRemaining  = $products->sum('remaining');
+        /* ===================== FINAL PROFIT ===================== */
+        $finalProfit = $totalPaid - $dailyExpensesTotal;
 
 
-    /* ===================== TAX GROUP PAID ===================== */
-    $totalPaid35 = $products->where('tax', 35)->sum('paied');
-    $totalPaid45 = $products->where('tax', 45)->sum('paied');
+        return view('backend.pages.reports.all_reports.search_by_date', compact(
+            'date',
+            'products',
 
+            'dailyExpenses',
+            'dailyExpensesTotal',
 
-    /* ===================== FINAL PROFIT ===================== */
-    $finalProfit = $totalPaid - $dailyExpensesTotal;
+            'totalPrice',
+            'totalPaid',
+            'totalRemaining',
 
+            'totalPaid35',
+            'totalPaid45',
 
-    return view('backend.pages.reports.all_reports.search_by_date', compact(
-        'date',
-        'products',
+            'finalProfit'
+        ));
+    }
 
-        'dailyExpenses',
-        'dailyExpensesTotal',
-
-        'totalPrice',
-        'totalPaid',
-        'totalRemaining',
-
-        'totalPaid35',
-        'totalPaid45',
-
-        'finalProfit'
-    ));
-}
-
-    public function AllReportsByMonth(Request $request){
+    public function AllReportsByMonth(Request $request)
+    {
         $request->validate([
             'month' => 'required|integer|min:1|max:12',
         ]);
@@ -229,7 +236,7 @@ public function SearchReportsByDate(Request $request)
         $allExpenses = Expense::with('employee')->whereMonth('date', $month)->get();
         $dailyExpenses = $allExpenses
             ->groupBy(fn($item) => $item->employee_id ?? 0)
-            ->map(function($group){
+            ->map(function ($group) {
                 $first = $group->first();
                 return (object)[
                     'employee_id' => $first->employee_id ?? 0,
@@ -242,56 +249,54 @@ public function SearchReportsByDate(Request $request)
             });
         $dailyExpensesTotal = $allExpenses->sum('amount');
 
-        // ----------------- Sales -----------------
-        $sales = Sale::with(['employee','product','category'])
-            ->whereIn('status',['completed','pending','cancelled'])
-            ->whereMonth('date', $month)
-            ->get();
+        /* ===================== PRODUCTS ===================== */
+        $products = Product::with('category')
+    ->whereMonth('created_at', $month)
+    ->get();
 
-        $dailySales = $sales
-            ->groupBy(fn($item) => $item->employee_id ?? 0)
-            ->map(function($group){
-                $first = $group->first();
-                $completed = $group->where('status','completed');
-                return (object)[
-                    'employee' => $first->employee ?? null,
-                    'total_quantity' => $completed->sum('quantity'),
-                    'total_sales' => $completed->sum(fn($item) => $item->sale_price * $item->quantity),
-                    'total_charges' => $group->sum('charges'),
-                    'profit' => $completed->sum(fn($item) => ($item->sale_price * $item->quantity) - ($item->buy_price * $item->quantity)),
-                    'all_sales' => $group,
-                    'employee_id' => $first->employee_id ?? 0,
-                ];
-            });
+        $products = $products->map(function ($item) {
 
-        // ----------------- Sponsors -----------------
-        $sponsors = Sponser::with('employee','product')->whereMonth('date', $month)->get();
-        $sponsorsTotal = $sponsors->sum('amount');
-        $sponsors = $sponsors
-            ->groupBy(fn($item) => $item->employee_id ?? 0)
-            ->map(function($group){
-                $first = $group->first();
-                return (object)[
-                    'employee' => $first->employee ?? null,
-                    'product' => $first->product ?? null,
-                    'amount' => $group->sum('amount'),
-                    'sponsor_quantity' => $group->count(),
-                    'date' => $group->max('date'),
-                ];
-            });
+            $item->remaining = $item->price - $item->paied;
 
-        // ----------------- Calculations -----------------
-        // اصلاح: محاسبه سود واقعی بدون دوبار کم کردن charges
-        $salesProfitTotal = $dailySales->sum(fn($s) => $s->profit - $s->total_charges);
+            return $item;
+        });
 
-        $finalAmount = $salesProfitTotal - $sponsorsTotal - $dailyExpensesTotal;
+
+        /* ===================== PRODUCT TOTALS ===================== */
+        $totalPrice      = $products->sum('price');
+        $totalPaid       = $products->sum('paied');
+        $totalRemaining  = $products->sum('remaining');
+
+
+        /* ===================== TAX GROUP PAID ===================== */
+        $totalPaid35 = $products->where('tax', 35)->sum('paied');
+        $totalPaid45 = $products->where('tax', 45)->sum('paied');
+
+
+        /* ===================== FINAL PROFIT ===================== */
+        $finalProfit = $totalPaid - $dailyExpensesTotal;
 
         return view('backend.pages.reports.all_reports.search_by_month', compact(
-            'dailyExpenses','dailyExpensesTotal','sales','dailySales','salesProfitTotal','finalAmount','month','sponsors','sponsorsTotal'
+            'dailyExpenses',
+            'dailyExpensesTotal',
+            'dailyExpenses',
+            'dailyExpensesTotal',
+            'month',
+            'products',
+
+            'totalPrice',
+            'totalPaid',
+            'totalRemaining',
+
+            'totalPaid35',
+            'totalPaid45',
+
+            'finalProfit'
         ));
     }
 
-    public function AllReportsByYear(Request $request){
+    public function AllReportsByYear(Request $request)
+    {
         $request->validate([
             'year' => 'required|integer|min:2025|max:2030',
         ]);
@@ -302,7 +307,7 @@ public function SearchReportsByDate(Request $request)
         $allExpenses = Expense::with('employee')->whereYear('date', $year)->get();
         $dailyExpenses = $allExpenses
             ->groupBy(fn($item) => $item->employee_id ?? 0)
-            ->map(function($group){
+            ->map(function ($group) {
                 $first = $group->first();
                 return (object)[
                     'employee_id' => $first->employee_id ?? 0,
@@ -315,90 +320,86 @@ public function SearchReportsByDate(Request $request)
             });
         $dailyExpensesTotal = $allExpenses->sum('amount');
 
-        // ----------------- Sales -----------------
-        $sales = Sale::with(['employee','product','category'])
-            ->whereIn('status',['completed','pending','cancelled'])
-            ->whereYear('date', $year)
-            ->get();
+        /* ===================== PRODUCTS ===================== */
+        $products = Product::with('category')
+        ->whereYear('created_at', $year)
+        ->get();
 
-        $dailySales = $sales
-            ->groupBy(fn($item) => $item->employee_id ?? 0)
-            ->map(function($group){
-                $first = $group->first();
-                $completed = $group->where('status','completed');
-                return (object)[
-                    'employee' => $first->employee ?? null,
-                    'total_quantity' => $completed->sum('quantity'),
-                    'total_sales' => $completed->sum(fn($item) => $item->sale_price * $item->quantity),
-                    'total_charges' => $group->sum('charges'),
-                    'profit' => $completed->sum(fn($item) => ($item->sale_price * $item->quantity) - ($item->buy_price * $item->quantity)),
-                    'all_sales' => $group,
-                    'employee_id' => $first->employee_id ?? 0,
-                ];
-            });
+        $products = $products->map(function ($item) {
 
-        // ----------------- Sponsors -----------------
-        $sponsors = Sponser::with('employee','product')->whereYear('date', $year)->get();
-        $sponsorsTotal = $sponsors->sum('amount');
-        $sponsors = $sponsors
-            ->groupBy(fn($item) => $item->employee_id ?? 0)
-            ->map(function($group){
-                $first = $group->first();
-                return (object)[
-                    'employee' => $first->employee ?? null,
-                    'product' => $first->product ?? null,
-                    'amount' => $group->sum('amount'),
-                    'sponsor_quantity' => $group->count(),
-                    'date' => $group->max('date'),
-                ];
-            });
+            $item->remaining = $item->price - $item->paied;
 
-        // ----------------- Calculations -----------------
-        // NEW: Calculate real profit like the tables do
-        $salesProfitTotal = $dailySales->sum(fn($s) => $s->profit - $s->total_charges);
+            return $item;
+        });
 
-        // Final amount
-        $finalAmount = $salesProfitTotal - $sponsorsTotal - $dailyExpensesTotal;
+
+        /* ===================== PRODUCT TOTALS ===================== */
+        $totalPrice      = $products->sum('price');
+        $totalPaid       = $products->sum('paied');
+        $totalRemaining  = $products->sum('remaining');
+
+
+        /* ===================== TAX GROUP PAID ===================== */
+        $totalPaid35 = $products->where('tax', 35)->sum('paied');
+        $totalPaid45 = $products->where('tax', 45)->sum('paied');
+
+
+        /* ===================== FINAL PROFIT ===================== */
+        $finalProfit = $totalPaid - $dailyExpensesTotal;
 
         return view('backend.pages.reports.all_reports.search_by_year', compact(
-            'dailyExpenses','dailyExpensesTotal','sales','dailySales','salesProfitTotal','finalAmount','year','sponsors','sponsorsTotal'
+            'dailyExpenses',
+            'dailyExpensesTotal',
+            'year',
+            'products',
+
+            'totalPrice',
+            'totalPaid',
+            'totalRemaining',
+
+            'totalPaid35',
+            'totalPaid45',
+
+            'finalProfit'
         ));
     }
 
-    public function AllSponsorsInvoice(Request $request){
+    public function AllSponsorsInvoice(Request $request)
+    {
         $employee_id = $request->employee_id;
         $month = $request->month;
         $date = $request->date;
 
-        $sponsors = Sponser::with('employee','product')
-            ->where('employee_id',$employee_id)
-            ->when($date, fn($q) => $q->whereDate('date', $date)) 
-            ->when($month, fn($q) => $q->whereMonth('date',$month))
+        $sponsors = Sponser::with('employee', 'product')
+            ->where('employee_id', $employee_id)
+            ->when($date, fn($q) => $q->whereDate('date', $date))
+            ->when($month, fn($q) => $q->whereMonth('date', $month))
             ->get();
 
         return view('backend.pages.reports.sponsers.invoice', compact('sponsors'));
     }
 
-    public function AllSalesInvoice(Request $request){
+    public function AllSalesInvoice(Request $request)
+    {
         $employee_id = $request->employee_id;
         $date = $request->date;
         $month = $request->month;
-        $year = $request->year; 
+        $year = $request->year;
 
         // همه فروش‌ها: completed, pending, cancelled
-        $sales = Sale::with(['employee','product','category'])
+        $sales = Sale::with(['employee', 'product', 'category'])
             ->where('employee_id', $employee_id)
             ->when($date, fn($query) => $query->whereDate('date', $date))
             ->when($month, fn($query) => $query->whereMonth('date', $month))
-            ->when($year, fn($query) => $query->whereYear('date', $year)) 
+            ->when($year, fn($query) => $query->whereYear('date', $year))
             ->get();
 
         // جمع charges از pending و cancelled
-        $pendingCharges = $sales->where('status','pending')->sum('charges');
-        $cancelledCharges = $sales->where('status','cancelled')->sum('charges');
+        $pendingCharges = $sales->where('status', 'pending')->sum('charges');
+        $cancelledCharges = $sales->where('status', 'cancelled')->sum('charges');
 
         // فقط completed برای محاسبه سود و فروش واقعی
-        $completedSales = $sales->where('status','completed');
+        $completedSales = $sales->where('status', 'completed');
         $total_sales = $completedSales->sum(fn($s) => $s->sale_price * $s->quantity);
         $total_quantity = $completedSales->sum('quantity');
         $total_profit = $completedSales->sum(fn($s) => ($s->sale_price * $s->quantity) - ($s->buy_price * $s->quantity) - ($s->charges ?? 0));
@@ -409,7 +410,16 @@ public function SearchReportsByDate(Request $request)
         $employee = Employee::find($employee_id);
 
         return view('backend.pages.reports.sales_invoice.invoice', compact(
-            'sales','employee','date','month','total_sales','total_quantity','total_profit','pendingCharges','cancelledCharges','total_final'
+            'sales',
+            'employee',
+            'date',
+            'month',
+            'total_sales',
+            'total_quantity',
+            'total_profit',
+            'pendingCharges',
+            'cancelledCharges',
+            'total_final'
         ));
     }
 }
