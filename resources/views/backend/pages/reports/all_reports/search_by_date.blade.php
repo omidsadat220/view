@@ -85,7 +85,7 @@
                     <div class="card shadow-sm">
 
                         <div class="card-header bg-info text-white">
-                            <h5 class="mb-0">45 گزارش مالیه </h5>
+                            <h5 class="mb-0"> گزارش روزانه </h5>
                         </div>
 
                         <div class="card-body">
@@ -102,7 +102,7 @@
                                             <th> قیمت</th>
                                             <th> پرداخت شده</th>
                                             <th> باقیمانده</th>
-                                            <th>مالیه</th>
+                                            <th>سهم</th>
                                             {{-- <th>عملیات</th> --}}
                                         </tr>
                                     </thead>
@@ -140,7 +140,7 @@
                                             <th>مجموع</th>
                                             <th>پرداخت شده</th>
                                             <th>باقیمانده</th>
-                                            <th>مالیه</th>
+                                            <th>سهم</th>
 
                                         </tr>
                                         <tr>
@@ -164,7 +164,7 @@
                     <div class="card shadow-sm">
 
                         <div class="card-header bg-info text-white">
-                            <h5 class="mb-0">35 گزارش مالیه </h5>
+                            <h5 class="mb-0"> گزارش روزانه </h5>
                         </div>
 
                         <div class="card-body">
@@ -181,7 +181,7 @@
                                             <th> قیمت</th>
                                             <th> پرداخت شده</th>
                                             <th> باقیمانده</th>
-                                            <th>مالیه</th>
+                                            <th>سهم</th>
                                             {{-- <th>عملیات</th> --}}
                                         </tr>
                                     </thead>
@@ -219,7 +219,7 @@
                                             <th>مجموع</th>
                                             <th>پرداخت شده</th>
                                             <th>باقیمانده</th>
-                                            <th>مالیه</th>
+                                            <th>سهم</th>
 
                                         </tr>
 
@@ -270,14 +270,14 @@
                                 <hr>
 
                                 <div class="d-flex justify-content-between mb-2">
-                                    <span>پرداخت مالیه 35 :</span>
+                                    <span>پرداخت  35 :</span>
                                     <strong class="text-success">
                                         {{ number_format($totalPaid35, 2) }}
                                     </strong>
                                 </div>
 
                                 <div class="d-flex justify-content-between mb-2">
-                                    <span>پرداخت مالیه 45 :</span>
+                                    <span>پرداخت  45 :</span>
                                     <strong class="text-info">
                                         {{ number_format($totalPaid45, 2) }}
                                     </strong>
