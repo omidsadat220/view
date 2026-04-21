@@ -164,9 +164,28 @@
                     </div>
                 </li>
 
-                <li>
-                    <a href="{{ route('daily.report') }}" class="tp-link" >گزارش روزانه  </a>
+                  <li>
+                    <a href="#reports" data-bs-toggle="collapse">
+                        <i data-feather="bar-chart-2"></i>
+                        <span> گزارش روزانه </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="reports">
+                        <ul class="nav-second-level">
+                              <li>
+                    <a href="{{ route('daily.expense.report') }}" class="tp-link" >گزارش مصرف روزانه  </a>
                 </li>
+                              <li>
+                    <a href="{{ route('daily.report') }}" class="tp-link" >گزارش مفاد روزانه  </a>
+                </li>
+                        </ul>
+                    </div>
+                </li>
+
+
+                {{-- <li>
+                    <a href="{{ route('daily.report') }}" class="tp-link" >گزارش روزانه  </a>
+                </li> --}}
 
 
 

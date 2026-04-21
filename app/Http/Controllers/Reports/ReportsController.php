@@ -371,38 +371,9 @@ class ReportsController extends Controller
     {
         $date = Carbon::today();
 
-    /* ===================== SALES ===================== */
-    $sales = Sale::with('customer')
-        ->whereDate('date', $date)
-        ->get();
-
-    $total_sales = $sales->sum('total');
-    $total_quantity = $sales->sum('quantity');
-    $total_profit = $sales->sum('profit');
 
 
-    /* ===================== EXPENSES ===================== */
-    $allExpenses = Expense::with('employee')
-        ->whereDate('date', $date)
-        ->get();
-
-    $dailyExpenses = $allExpenses
-        ->groupBy(fn($item) => $item->employee_id ?? 0)
-        ->map(function ($group) {
-
-            $first = $group->first();
-
-            return (object)[
-                'employee_id'    => $first->employee_id ?? 0,
-                'last_date'      => $group->max('date'),
-                'total_expenses' => $group->count(),
-                'total_amount'   => $group->sum('amount'),
-                'employee'       => $first->employee ?? null,
-                'all_expenses'   => $group,
-            ];
-        });
-
-    $dailyExpensesTotal = $allExpenses->sum('amount');
+   
 
 
     /* ===================== PRODUCTS ===================== */
@@ -418,18 +389,41 @@ class ReportsController extends Controller
     });
 
 
-        
-        
-
         return view('backend.pages.reports.all_reports.daily_report', compact(
-           'sales',
-        'total_sales',
-        'total_quantity',
-        'total_profit',
-        'dailyExpenses',
-        'dailyExpensesTotal',
         'products'
             ));
+    }
+
+    public function dailyExpenseReport()
+    {
+        $date = Carbon::today();
+
+        $allExpenses = Expense::with('employee')
+            ->whereDate('date', $date)
+            ->get();
+
+        $dailyExpenses = $allExpenses
+            ->groupBy(fn($item) => $item->employee_id ?? 0)
+            ->map(function ($group) {
+
+                $first = $group->first();
+
+                return (object)[
+                    'employee_id'    => $first->employee_id ?? 0,
+                    'last_date'      => $group->max('date'),
+                    'total_expenses' => $group->count(),
+                    'total_amount'   => $group->sum('amount'),
+                    'employee'       => $first->employee ?? null,
+                    'all_expenses'   => $group,
+                ];
+            });
+
+        $dailyExpensesTotal = $allExpenses->sum('amount');
+
+        return view('backend.pages.reports.all_reports.daily_expense_report', compact(
+            'dailyExpenses',
+            'dailyExpensesTotal'
+        ));
     }
 
     public function AllSponsorsInvoice(Request $request)
