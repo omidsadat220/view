@@ -21,7 +21,7 @@
                         <span> صفحه اصلی </span>
                     </a>
                 </li>
-    
+
                 <!-- <li>
                     <a href="landing.html" target="_blank">
                         <i data-feather="globe"></i>
@@ -32,7 +32,7 @@
                 <li>
                     <a href="#product" data-bs-toggle="collapse">
                         <i data-feather="users"></i>
-                        <span>  محافل </span>
+                        <span> محافل </span>
                         <span class="menu-arrow"></span>
                     </a>
                     <div class="collapse" id="product">
@@ -47,10 +47,10 @@
                     </div>
                 </li>
 
-                 <li>
+                <li>
                     <a href="#outproduct" data-bs-toggle="collapse">
                         <i data-feather="users"></i>
-                        <span>محافل بیرونی  </span>
+                        <span>محافل بیرونی </span>
                         <span class="menu-arrow"></span>
                     </a>
                     <div class="collapse" id="outproduct">
@@ -66,17 +66,17 @@
                 </li>
 
 
-                
+
                 <li>
                     <a href="#category" data-bs-toggle="collapse">
                         <i data-feather="package"></i>
-                        <span>  خدمات محفل </span>
+                        <span> خدمات محفل </span>
                         <span class="menu-arrow"></span>
                     </a>
                     <div class="collapse" id="category">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="{{ route('all.category') }}" class="tp-link">لیست خدمات  محفل</a>
+                                <a href="{{ route('all.category') }}" class="tp-link">لیست خدمات محفل</a>
                             </li>
                             <li>
                                 <a href="{{ route('add.category') }}" class="tp-link">افزودن خدمات محفل </a>
@@ -119,7 +119,7 @@
                                 <a href="{{ route('add.expenses') }}" class="tp-link">افزودن مصارف</a>
                             </li>
 
-                             <li>
+                            <li>
                                 <a href="{{ route('all.debt') }}" class="tp-link">قرض ها</a>
                             </li>
                         </ul>
@@ -146,7 +146,7 @@
 
                 {{-- report --}}
 
-                        <li>
+                <li>
                     <a href="#reports" data-bs-toggle="collapse">
                         <i data-feather="bar-chart-2"></i>
                         <span> گزارش ها </span>
@@ -159,10 +159,15 @@
                             </li> --}}
                             <li>
                                 <a href="{{ route('all.report') }}" class="tp-link">گزارش عمومی</a>
-                            </li>                          
+                            </li>
                         </ul>
                     </div>
                 </li>
+
+                <li>
+                    <a href="{{ route('daily.report') }}" class="tp-link" >گزارش روزانه  </a>
+                </li>
+
 
 
             </ul>

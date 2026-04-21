@@ -125,6 +125,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/search/reports/bymonth', 'AllReportsByMonth')->name('search.reports.by.month');
         Route::post('/search/reports/year', 'AllReportsByYear')->name('search.reports.by.year');
 
+        Route::get('/daily-report',  'dailyReport')->name('daily.report');
+
         Route::get('/all/sponsors/invoice', 'AllSponsorsInvoice')->name('all.sponsors.invoice');
         Route::get('/all/sales/invoice', 'AllSalesInvoice')->name('all.sales.invoice');
     });
