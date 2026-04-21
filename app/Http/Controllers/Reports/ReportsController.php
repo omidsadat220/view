@@ -371,11 +371,6 @@ class ReportsController extends Controller
     {
         $date = Carbon::today();
 
-
-
-   
-
-
     /* ===================== PRODUCTS ===================== */
     $products = Product::with('category')
         ->whereDate('created_at', $date)
