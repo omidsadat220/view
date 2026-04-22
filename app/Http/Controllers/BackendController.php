@@ -143,8 +143,8 @@ class BackendController extends Controller
 
         // where out is 
 
-        $totalOutStock = Product::where('tax','35')->sum('price');
-        $totalOutPaied = Product::where('tax','35')->sum('paied');
+        $totalOutStock = Product::where('tax','30')->sum('price');
+        $totalOutPaied = Product::where('tax','30')->sum('paied');
         $totalDebt = Debt::where('price', '>', 0)->get();
 
 
@@ -153,7 +153,7 @@ class BackendController extends Controller
             FROM category_product 
             INNER JOIN categories ON category_product.category_id = categories.id
             INNER JOIN products ON category_product.product_id = products.id
-            WHERE products.tax = 35
+            WHERE products.tax = 30
         ')[0]->total ?? 0;
 
 
@@ -405,10 +405,12 @@ class BackendController extends Controller
 
 
     public function AllProducts(){
-    $product = Product::where('tax', '45')
-        ->with('categories')
-        ->orderBy('id', 'desc')
-        ->get();
+    // $product = Product::where('tax', '45')
+    //     ->with('categories')
+    //     ->orderBy('id', 'desc')
+    //     ->get();
+
+     $product = Product::with('categories')->orderBy('id', 'desc')->get();
         return view('backend.pages.products.index', compact('product'));
     }
 

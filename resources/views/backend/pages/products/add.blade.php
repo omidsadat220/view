@@ -80,7 +80,7 @@
 
     <div class="form-group col-md-4">
         <label for="date" class="form-label">تاریخ محفل <span class="text-danger">*</span></label>
-        <input type="text" id="persianDate" class="form-control" name="date" value="1400/00/00">
+        <input type="text" id="persianDate" class="form-control" name="date" value="1405/00/00">
     </div>
 
     <div class="form-group col-md-4">
@@ -103,7 +103,7 @@
 
         <select name="tax" id=""  class="form-control">
             <option value="45">سهم هوتل تاج %45 </option>
-            <option value="35">سهم بیرونی %35 </option>
+            <option value="30">سهم بیرونی %30 </option>
         </select>
      
     </div>

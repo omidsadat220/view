@@ -38,6 +38,7 @@
                                         <th class="text-center">شماره تماس</th>
                                         <th class="text-center">هوتل</th>
                                         <th class="text-center">صالون</th>
+                                        <th class="text-center">نوع محفل</th>
                                         <th class="text-center"> تاریخ محفل</th>
                                         <th class="text-center">عملیات</th>
                                     </tr>
@@ -58,6 +59,11 @@
                                             
                                             <td class="text-center">{{ $item->hall }}</td>
                                             <td class="text-center">{{ $item->room }}</td>
+                                                @if($item->tax == 45)
+                                                 <td class="text-center">هوتل تاج</td>
+                                                @else
+                                                    <td class="text-center">هوتل بیرون</td>
+                                                @endif
                                             <td class="text-center">{{ $item->date }}</td>
                                            
                                             <td class="text-center">

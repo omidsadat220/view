@@ -47,7 +47,7 @@
                     </div>
                 </li>
 
-                <li>
+                {{-- <li>
                     <a href="#outproduct" data-bs-toggle="collapse">
                         <i data-feather="users"></i>
                         <span>محافل بیرونی </span>
@@ -63,7 +63,7 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> --}}
 
 
 
@@ -163,32 +163,21 @@
                         </ul>
                     </div>
                 </li>
-
-                  <li>
-                    <a href="#reports" data-bs-toggle="collapse">
+                <li>
+                    <a href="{{ route('daily.report') }}" >
                         <i data-feather="bar-chart-2"></i>
-                        <span> گزارش روزانه </span>
-                        <span class="menu-arrow"></span>
+                        <span> مفاد روزانه </span>
                     </a>
-                    <div class="collapse" id="reports">
-                        <ul class="nav-second-level">
-                              <li>
-                    <a href="{{ route('daily.expense.report') }}" class="tp-link" >گزارش مصرف روزانه  </a>
-                </li>
-                              <li>
-                    <a href="{{ route('daily.report') }}" class="tp-link" >گزارش مفاد روزانه  </a>
-                </li>
-                        </ul>
-                    </div>
                 </li>
 
+                <li>
+                    <a href="{{ route('daily.expense.report') }}" >
+                        <i data-feather="bar-chart-2"></i>
+                        <span> مصرف روزانه </span>
+                    </a>
+                </li>
 
-                {{-- <li>
-                    <a href="{{ route('daily.report') }}" class="tp-link" >گزارش روزانه  </a>
-                </li> --}}
-
-
-
+                 
             </ul>
 
         </div>

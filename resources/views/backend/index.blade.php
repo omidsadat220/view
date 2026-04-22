@@ -121,7 +121,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="fs-14 mb-1"><i class="fa-solid fa-box-open icon" style="color: #F5C542; margin-left:10px"></i>  آمد مکمل محافل بیرونی </div>
-                                <div class="fs-22 fw-semibold" style="color: #062A29">
+                                <div class="fs-22 fw-semibold" style="color: #F5C542">
                                     {{ number_format($totalOutStock) }}
                                 </div>
                             </div>
@@ -225,7 +225,7 @@
                                                         <tr>
                                                             <th>نام</th>
                                                             <th>مقدرا</th>
-                                                            <th>جزیات</th>
+                                                            <th>جزییات</th>
                                                             <th colspan="2">تاریخ</th>
                                                         </tr>
                                                     </thead>
@@ -241,9 +241,6 @@
                                                        
                                                     </tr>
                                                     @endforeach
-
-                                                   
-
                                                 </tbody>
                                             </table>
                                         </div>
@@ -251,14 +248,9 @@
                                     
                                 </div>
                             </div>
-                    
-
                 </div>
             </div> <!-- end sales -->
         </div> <!-- end row -->
-
-        
-
 
     </div> <!-- container-fluid -->
 </div>

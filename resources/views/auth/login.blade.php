@@ -313,7 +313,7 @@ body {
 
                                             <div class="form-group mb-3">
                                                 <label for="emailaddress" class="form-label">ایمیل</label>
-                                                <input class="form-control" type="email" name="email" id="emailaddress" required value="omid@gmail.com">
+                                                <input class="form-control" type="email" name="email" id="emailaddress" required value="admin@gmail.com">
                                                 @error('email')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror

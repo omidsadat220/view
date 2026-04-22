@@ -174,7 +174,7 @@
         <div class="card shadow-sm">
 
             <div class="card-header bg-warning text-dark">
-                <h5 class="mb-0">گزارش روزانه  (سهم 35)</h5>
+                <h5 class="mb-0">گزارش روزانه  (سهم 30)</h5>
             </div>
 
             <div class="card-body">
@@ -199,7 +199,7 @@
 
                         <tbody>
 
-                            @forelse ($products->where('tax', 35)->values() as $key => $item)
+                            @forelse ($products->where('tax', 30)->values() as $key => $item)
                                 <tr>
 
                                     <td class="text-center">
@@ -258,19 +258,19 @@
                                 </th>
 
                                 <th class="text-center">
-                                    {{ number_format($products->where('tax', 35)->sum('price'), 2) }}
+                                    {{ number_format($products->where('tax', 30)->sum('price'), 2) }}
                                 </th>
 
                                 <th class="text-center">
-                                    {{ number_format($products->where('tax', 35)->sum('paied'), 2) }}
+                                    {{ number_format($products->where('tax', 30)->sum('paied'), 2) }}
                                 </th>
 
                                 <th class="text-center text-danger">
-                                    {{ number_format($products->where('tax', 35)->sum('remaining'), 2) }}
+                                    {{ number_format($products->where('tax', 30)->sum('remaining'), 2) }}
                                 </th>
 
                                 <th class="text-center">
-                                    {{ number_format(35, 2) }}
+                                    {{ number_format(30, 2) }}
                                 </th>
 
                             </tr>

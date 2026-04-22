@@ -94,7 +94,7 @@
                                 <input type="number" class="form-control" name="remaining" id="remaining" value="{{ $product->remaining ?? '' }}" readonly style="background-color: #e9ecef;">
                             </div>
 
-            <option value="45">سهم هوتل تاج %45 </option>
+                                  <option value="45">سهم هوتل تاج %45 </option>
 
 
                             <div class="form-group col-md-4">
@@ -106,8 +106,8 @@
                                     <option value="45" {{ ($product->tax == 45) ? 'selected' : '' }}>
                                        45% سهم هوتل تاج
                                     </option>
-                                    <option value="35" {{ ($product->tax == 35) ? 'selected' : '' }}>
-                                       35% سهم بیرونی
+                                    <option value="30" {{ ($product->tax == 30) ? 'selected' : '' }}>
+                                       30% سهم بیرونی
                                     </option>
                                 </select>
                             </div>

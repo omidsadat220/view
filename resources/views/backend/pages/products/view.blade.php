@@ -161,8 +161,8 @@
                                                     <span class="badge bg-secondary">-</span>
                                                 @endif
 
-                                                <span class="badge bg-secondary">
-                                                    <h5>{{ number_format($total) }} AFN</h5>
+                                                <span class="badge">
+                                              <h1>   AFN {{ number_format($total) }}</h1>
                                                 </span>
 
                                                 <div class="card-body text-center">
