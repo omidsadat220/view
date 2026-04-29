@@ -24,6 +24,7 @@ return new class extends Migration
             $table->decimal('paied', 10,2)->nullable();
             $table->decimal('remaining', 10,2)->nullable();
             $table->decimal('tax', 5,2)->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
             $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete();
         });

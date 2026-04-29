@@ -39,6 +39,7 @@
                                         <th class="text-center">هوتل</th>
                                         <th class="text-center">صالون</th>
                                         <th class="text-center">نوع محفل</th>
+                                        <th class="text-center">عکس</th>
                                         <th class="text-center"> تاریخ محفل</th>
                                         <th class="text-center">عملیات</th>
                                     </tr>
@@ -56,7 +57,7 @@
                                             
                                             <td class="text-center">{{ $item->name }}</td>
                                             <td class="text-center">{{ $item->lastname }}</td>
-                                            
+                                            <td> <img src="{{ asset($item->image) }}" style="width: 70px; height:40px">
                                             <td class="text-center">{{ $item->hall }}</td>
                                             <td class="text-center">{{ $item->room }}</td>
                                                 @if($item->tax == 45)
