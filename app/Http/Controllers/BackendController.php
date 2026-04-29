@@ -11,6 +11,8 @@ use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Sponser;
 use App\Models\User;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -434,34 +436,41 @@ class BackendController extends Controller
                 'category_ids' => 'required|array|min:1', // At least one category selected
                 'category_ids.*' => 'exists:categories,id'
             ]);
-            
-            
-            // Create the product
-            $product = Product::create([
-                'bellnumber' => $request->bellnumber,
-                'name' => $request->name,
-                'lastname' => $request->lastname,
-                'hall' => $request->hall,
-                'room' => $request->room,
-                'date' => $request->date,
-                'price' => $request->price,
-                'paied' => $request->paied,
-                'remaining' => $request->remaining,
-                'tax' => $request->tax,
-            ]);
-            
-            // Attach multiple categories to the product
-            if ($request->has('category_ids')) {
-                $product->categories()->attach($request->category_ids);
+
+            if ($request->file('image')) {
+    $image = $request->file('image');
+    $manager = new ImageManager(new Driver());
+    $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+    
+    $img = $manager->read($image);
+    $img->resize(100, 90)->save(public_path('upload/product/'.$name_gen));
+    
+    $save_url = 'upload/product/'.$name_gen;
+
+    $product = Product::create([
+        'bellnumber' => $request->bellnumber,
+        'name' => $request->name,
+        'lastname' => $request->lastname,
+        'hall' => $request->hall,
+        'room' => $request->room,
+        'date' => $request->date,
+        'price' => $request->price,
+        'paied' => $request->paied,
+        'remaining' => $request->remaining,
+        'tax' => $request->tax,
+        'image' => $save_url, // ✅ FIXED
+    ]);
+
+    if ($request->has('category_ids')) {
+        $product->categories()->attach($request->category_ids);
+    }
+
+    return redirect()->route('all.products')->with([
+        'message' => 'قرارداد اضافه شد',
+        'alert-type' => 'success'
+    ]);
+}
             }
-            
-            $notification = array(
-                'message' => 'قرارداد اضافه شد',
-                'alert-type' => 'success'
-            );
-            
-            return redirect()->route('all.products')->with($notification);
-        }
 
         public function ViewProduct($id){
             $product = Product::with('categories')->findOrFail($id);

@@ -35,7 +35,7 @@
                                         <th class="text-center">#</th>
                                         <th class="text-center">  شماره مسلسل </th>
                                         <th class="text-center">اسم</th>
-                                        <th class="text-center">شماره تماس</th>
+                                        <th class="text-center">تخلص</th>
                                         <th class="text-center">هوتل</th>
                                         <th class="text-center">صالون</th>
                                         <th class="text-center">نوع محفل</th>
@@ -53,11 +53,8 @@
                                             <td class="text-center">{{ $key+1 }}</td>
                                             @endif
                                             <td class="text-center">{{ $item->bellnumber }}</td>
-
-                                            
                                             <td class="text-center">{{ $item->name }}</td>
                                             <td class="text-center">{{ $item->lastname }}</td>
-                                            <td> <img src="{{ asset($item->image) }}" style="width: 70px; height:40px">
                                             <td class="text-center">{{ $item->hall }}</td>
                                             <td class="text-center">{{ $item->room }}</td>
                                                 @if($item->tax == 45)
@@ -65,6 +62,9 @@
                                                 @else
                                                     <td class="text-center">هوتل بیرون</td>
                                                 @endif
+                                            <td> <img src="{{ !empty($item->image) ? asset($item->image) : asset('upload/no_image.png')
+                                             }}" style="height: 60px"></td>
+
                                             <td class="text-center">{{ $item->date }}</td>
                                            
                                             <td class="text-center">
