@@ -235,7 +235,7 @@ class BackendController extends Controller
             return redirect()->route('all.employee')->with($notification);
     }
 
-    public function EditEmployee($id){
+    public function EditEmployee(int $id){
         $employee = Employee::find($id);
         return view('backend.pages.employee.edit', compact('employee'));
     }
@@ -296,7 +296,7 @@ class BackendController extends Controller
             return redirect()->route('all.employee')->with($notification);
     }
 
-    public function DetailsEmployee($id){
+    public function DetailsEmployee(int $id){
         $emp = Employee::with(['sales','expenses','sponsers'])->findOrFail($id);
 
         $currentMonth = Carbon::now()->month;
@@ -309,7 +309,7 @@ class BackendController extends Controller
         ));
     }
 
-    public function DeleteEmployee($id) {
+    public function DeleteEmployee(int $id) {
         $employee = Employee::find($id);
         
         if ($employee->photo && file_exists(public_path($employee->photo))) {
@@ -355,7 +355,7 @@ class BackendController extends Controller
             return redirect()->route('all.category')->with($notification);
     }
 
-    public function EditCategory($id){
+    public function EditCategory(int $id){
         $category = Category::find($id);
         return view('backend.pages.category.edit', compact('category'));
     }
@@ -383,7 +383,7 @@ class BackendController extends Controller
         return redirect()->route('all.category')->with($notification);
     }
 
-    public function DeleteCategory($id){
+    public function DeleteCategory(int $id){
         Category::find($id)->delete();
 
         $notification = array(
@@ -472,13 +472,13 @@ class BackendController extends Controller
 }
             }
 
-        public function ViewProduct($id){
+        public function ViewProduct(int $id){
             $product = Product::with('categories')->findOrFail($id);
             return view('backend.pages.products.view', compact('product'));
         }
 
         // Generate PDF for the product
-        public function generatePDF($id){
+        public function generatePDF(int $id){
             $product = Product::with('categories')->findOrFail($id);
             
             $pdf = Pdf::loadView('backend.pages.products.pdf', compact('product'));
@@ -492,7 +492,7 @@ class BackendController extends Controller
  // Show edit form
    
    // Show edit form
-    public function EditProducts($id){
+    public function EditProducts(int $id){
         $product = Product::with('categories')->findOrFail($id);
         $categories = Category::all();
         
@@ -503,26 +503,62 @@ class BackendController extends Controller
     }
     
     // Update product
-    public function UpdateProducts(Request $request, $id){
-        // Validate the request
-        $request->validate([
-            'bellnumber' => 'required',
-            'name' => 'required',
-            'lastname' => 'required',
-            'hall' => 'required',
-            'room' => 'required',
-            'date' => 'required',
-            'price' => 'required|numeric',
-            'paied' => 'required|numeric',
-            'remaining' => 'required|numeric',
-            'category_ids' => 'required|array|min:1',
-            'category_ids.*' => 'exists:categories,id',
+   public function UpdateProducts(Request $request, int $id)
+{
+    // Validate
+    $request->validate([
+        'bellnumber' => 'required',
+        'name' => 'required',
+        'lastname' => 'required',
+        'hall' => 'required',
+        'room' => 'required',
+        'date' => 'required',
+        'price' => 'required|numeric',
+        'paied' => 'required|numeric',
+        'remaining' => 'required|numeric',
+        'category_ids' => 'required|array|min:1',
+        'category_ids.*' => 'exists:categories,id',
+    ]);
+
+    // Find product
+    $product = Product::findOrFail($id);
+
+    // ✅ اگر عکس جدید آمده
+    if ($request->file('image')) {
+
+        // 🔥 حذف عکس قبلی (اگر وجود داشت)
+        if (!empty($product->image) && file_exists(public_path($product->image))) {
+            unlink(public_path($product->image));
+        }
+
+        // 📸 آپلود عکس جدید
+        $image = $request->file('image');
+        $manager = new ImageManager(new Driver());
+
+        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+
+        $img = $manager->read($image);
+        $img->resize(100, 90)->save(public_path('upload/product/'.$name_gen));
+
+        $save_url = 'upload/product/'.$name_gen;
+
+        // ✅ update با image
+        $product->update([
+            'bellnumber' => $request->bellnumber,
+            'name' => $request->name,
+            'lastname' => $request->lastname,
+            'hall' => $request->hall,
+            'room' => $request->room,
+            'date' => $request->date,
+            'price' => $request->price,
+            'paied' => $request->paied,
+            'remaining' => $request->remaining,
+            'tax' => $request->tax,
+            'image' => $save_url, // 🔥 مهم
         ]);
-        
-        // Find the product
-        $product = Product::findOrFail($id);
-        
-        // Update product details
+
+    } else {
+        // ✅ اگر عکس تغییر نکرد
         $product->update([
             'bellnumber' => $request->bellnumber,
             'name' => $request->name,
@@ -535,35 +571,38 @@ class BackendController extends Controller
             'remaining' => $request->remaining,
             'tax' => $request->tax,
         ]);
-        
-        // Sync categories (remove old and add new ones)
-        $product->categories()->sync($request->category_ids);
-        
-        $notification = array(
-            'message' => 'قرارداد با موفقیت به روز رسانی شد',
-            'alert-type' => 'success'
-        );
-        
-        return redirect()->route('all.products')->with($notification);
     }
 
+    // Sync categories
+    $product->categories()->sync($request->category_ids);
+
+    return redirect()->route('all.products')->with([
+        'message' => 'قرارداد با موفقیت به روز رسانی شد',
+        'alert-type' => 'success'
+    ]);
+}
+
     // Delete product
-    public function DeleteProducts($id){
-        $product = Product::findOrFail($id);
-        
-        // Delete pivot table entries automatically
-        $product->categories()->detach();
-        
-        // Delete product
-        $product->delete();
-        
-        $notification = array(
-            'message' => 'قرارداد با موفقیت حذف شد',
-            'alert-type' => 'success'
-        );
-        
-        return redirect()->route('all.products')->with($notification);
+    public function DeleteProducts(int $id)
+{
+    $product = Product::findOrFail($id);
+
+    // 🔥 حذف عکس از سرور
+    if (!empty($product->image) && file_exists(public_path($product->image))) {
+        unlink(public_path($product->image));
     }
+
+    // حذف دسته‌بندی‌ها (pivot)
+    $product->categories()->detach();
+
+    // حذف خود product
+    $product->delete();
+
+    return redirect()->route('all.products')->with([
+        'message' => 'قرارداد با موفقیت حذف شد',
+        'alert-type' => 'success'
+    ]);
+}
 
     // --------------  Sales -----------------
 
@@ -579,7 +618,7 @@ class BackendController extends Controller
         return view('backend.pages.sales.add', compact('employee','category', 'product'));
     }
     
-    public function GetProducts($category_id){
+    public function GetProducts(int $category_id){
         $products = Product::where('category_id', $category_id)->get();
         return response()->json($products);
     }
@@ -654,7 +693,7 @@ class BackendController extends Controller
     return redirect()->route('all.sales')->with($notification);
 }
 
-    public function EditSales($id){
+    public function EditSales(int $id){
         $sale = Sale::findOrFail($id);
         $category = Category::all();
         $product = Product::all();
@@ -662,7 +701,7 @@ class BackendController extends Controller
         return view('backend.pages.sales.edit', compact('sale','category','product','employee'));
     }
 
-    public function UpdateSales(Request $request, $id){
+    public function UpdateSales(Request $request,int  $id){
     $request->validate([
         'category_id' => 'required',
         'product_id' => 'required',
@@ -741,7 +780,7 @@ class BackendController extends Controller
     return redirect()->route('all.sales')->with($notification);
 }
 
-    public function DeleteSales($id){
+    public function DeleteSales(int $id){
         $sale = Sale::findOrFail($id);
         $product = Product::findOrFail($sale->product_id);
 
@@ -768,7 +807,7 @@ class BackendController extends Controller
         return response()->json($sales);
     }
 
-    public function ChangeStatus(Request $request, $id){
+    public function ChangeStatus(Request $request,int $id){
     $sale = Sale::findOrFail($id);
     $product = Product::findOrFail($sale->product_id);
 
@@ -805,7 +844,7 @@ class BackendController extends Controller
     return response()->json(['success'=>true]);
 }
 
-    public function DetailsSales($id){
+    public function DetailsSales(int $id){
         $sale = Sale::with(['product', 'employee', 'category'])->findOrFail($id);
         return view('backend.pages.sales.sales_details', compact('sale'));
     }
@@ -838,14 +877,14 @@ class BackendController extends Controller
         return redirect()->route('all.debt')->with('success', 'قرض با موفقیت ثبت شد');
     }
 
-     public function EditDebt($id){
+     public function EditDebt(int $id){
         $expense = Debt::find($id);
         return view('backend.pages.debt.edit', compact('expense',));
     }
 
 
 
-    public function UpdateDebt(Request $request, $id){
+    public function UpdateDebt(Request $request,int  $id){
        
 
         $expense = Debt::findOrFail($id);
@@ -864,7 +903,7 @@ class BackendController extends Controller
 
 
 
-     public function DeleteDebt($id){
+     public function DeleteDebt(int $id){
         $debt = Debt::findOrFail($id);
         $debt->delete();
 
@@ -910,7 +949,7 @@ class BackendController extends Controller
         return redirect()->route('all.expenses')->with('success', 'مصرف با موفقیت ثبت شد');
     }
 
-    public function EditExpenses($id){
+    public function EditExpenses(int $id){
         $expense = Expense::find($id);
         $employee = Employee::all();
         return view('backend.pages.expenses.edit', compact('expense', 'employee'));
@@ -944,7 +983,7 @@ class BackendController extends Controller
         return redirect()->route('all.expenses')->with('success', 'مصرف با موفقیت بروزرسانی شد');
     }
 
-    public function DeleteExpenses($id){
+    public function DeleteExpenses(int $id){
         $expense = Expense::findOrFail($id);
         $expense->delete();
 

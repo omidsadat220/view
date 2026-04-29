@@ -94,6 +94,18 @@
                                 <input type="number" class="form-control" name="remaining" id="remaining" value="{{ $product->remaining ?? '' }}" readonly style="background-color: #e9ecef;">
                             </div>
 
+                               <div class="form-group col-md-4">
+                                    <label for="validationDefault02" class="form-label">عکس</label>
+                                    <input type="file" class="form-control" name="image" id="image">
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="validationDefault02" class="form-label">نشان عکس</label>
+                                    <img id="showImage"  src="{{ !empty($product->image) ? asset($product->image) : asset('upload/no_image.png') }}"
+                                        class="rounded-circle avatar-xl img-thumbnail float-start" alt="image profile">
+                                </div>
+
+
                                   <option value="45">سهم هوتل تاج %45 </option>
 
 
@@ -187,5 +199,18 @@
         });
     });
 </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#image').change(function(e) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#showImage').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(e.target.files['0']);
+            })
+        })
+    </script>
+
 
 @endsection
