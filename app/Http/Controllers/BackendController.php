@@ -233,47 +233,27 @@ class BackendController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'lname' => 'required|string|max:255',
-            'province' => 'nullable|string|max:255',
-            'email' => "nullable|email|unique:employees,email,{$emp_id}",
+            'salary' => 'required|string|max:255',
+            'position' => 'nullable',
             'phone' => 'nullable|string|max:20',
-            'national_id' => "nullable|string|unique:employees,national_id,{$emp_id}",
-            'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ], [
             'name.required' => 'لطفا نام کارمند را وارد کنید',
             'lname.required' => 'لطفا تخلص کارمند را وارد کنید',
-            'province.required' => 'لطفا ولایت را وارد کنید',
-            'email.required' => 'لطفا ایمیل کارمند را وارد کنید',
-            'email.email' => 'Enter a valid email address',
-            'email.unique' => 'This email is already taken',
-            'national_id' => 'لطفا شماره تذکره را وارد کنید', 
-            'national_id.unique' => 'این شماره تذکره قبلا ثبت شده', 
+            'salary.required' => 'لطفا ولایت را وارد کنید',
+            'position.required' => 'Enter a valid address',
+            'phone.required' => 'Enter a valid email phone',
         ]);
 
         $employee = Employee::find($emp_id);
 
-        if ($request->hasFile('photo')) {
-
-            if ($employee->photo && file_exists(public_path($employee->photo))) {
-                unlink(public_path($employee->photo));
-            }
-
-            $file = $request->file('photo');
-            $filename = time().'.'.$file->getClientOriginalExtension();
-            $file->move(public_path('upload/employee'), $filename);
-            $photoPath = 'upload/employee/'.$filename;
-
-            $employee->update([
-                'photo' => $photoPath,
-            ]);
-        }
+      
 
         Employee::find($emp_id)->update([
             'name' => $request->name,
             'lname' => $request->lname,
-            'province' => $request->province,
-            'email' => $request->email,
+            'salary' => $request->salary,
+            'position' => $request->position,
             'phone' => $request->phone,
-            'national_id' => $request->national_id,
         ]);
 
         $notification = array(
@@ -300,9 +280,7 @@ class BackendController extends Controller
     public function DeleteEmployee(int $id) {
         $employee = Employee::find($id);
         
-        if ($employee->photo && file_exists(public_path($employee->photo))) {
-            unlink(public_path($employee->photo));
-        }
+        
 
         $employee->delete();
 
