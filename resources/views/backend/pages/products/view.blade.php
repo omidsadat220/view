@@ -69,6 +69,13 @@
                                         <th>صالون:</th>
                                         <td>{{ $product->room }}</td>
                                     </tr>
+
+                                    <tr>
+                                        <th>عکس:</th>
+                                        <td><img id="showImage"  src="{{ !empty($product->image) ? asset($product->image) : asset('upload/no_image.png') }}"
+                                        class="rounded-circle avatar-xl img-thumbnail float-start" alt="image profile"></td>
+                                    </tr>
+
                                     <tr>
                                         <th>تاریخ محفل:</th>
                                         <td>{{ \Carbon\Carbon::parse($product->date)->format('Y-m-d') }}</td>
