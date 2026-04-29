@@ -192,40 +192,28 @@ class BackendController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'lname' => 'required|string|max:255',
-            'province' => 'required|string|max:255',
-            'email' => 'nullable',
+            'salary' => 'required|string|max:255',
+            'position' => 'nullable',
             'phone' => 'nullable|string|max:20',
-            'national_id' => 'required|string|unique:employees,national_id',
-            'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+         
         ], [
             'name.required' => 'لطفا نام کارمند را وارد کنید',
             'lname.required' => 'لطفا تخلص کارمند را وارد کنید',
-            'province.required' => 'لطفا ولایت را وارد کنید',
-            'email.required' => 'لطفا ایمیل کارمند را وارد کنید',
-            'email.email' => 'Enter a valid email address',
-            'email.unique' => 'This email is already taken',
-            'national_id.required' => 'لطفا شماره تذکره را وارد کنید',
-            'national_id.unique' => 'این شماره تذکره قبلا ثبت شده',
-            'photo.image' => 'فایل باید عکس باشد',
+            'salary.required' => 'لطفا ولایت را وارد کنید',
+            'position.required' => 'Enter a valid address',
+            'phone.required' => 'Enter a valid email phone',
+
         ]);
 
-        $photoPath = null;
 
-        if ($request->hasFile('photo')) {
-            $file = $request->file('photo');
-            $filename = time().'.'.$file->getClientOriginalExtension();
-            $file->move(public_path('upload/employee'), $filename);
-            $photoPath = 'upload/employee/'.$filename;
-        }
+       
 
         Employee::create([
             'name' => $request->name,
             'lname' => $request->lname,
-            'province' => $request->province,
-            'email' => $request->email,
+            'salary' => $request->salary,
+            'position' => $request->position,
             'phone' => $request->phone,
-            'national_id' => $request->national_id,
-            'photo' => $photoPath,
         ]);
 
         $notification = array(

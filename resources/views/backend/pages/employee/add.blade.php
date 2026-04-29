@@ -49,13 +49,13 @@
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label for="province" class="form-label">ولایت</label>
-                    <input type="text" class="form-control" name="province">
+                    <label for="province" class="form-label">معاش</label>
+                    <input type="text" class="form-control" name="salary">
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label for="email" class="form-label">ایمیل</label>
-                    <input type="text" class="form-control" name="email">
+                    <label for="email" class="form-label">وظیفه</label>
+                    <input type="text" class="form-control" name="position">
                 </div>
 
                 <div class="col-md-4">
@@ -63,15 +63,9 @@
                     <input type="text" class="form-control" name="phone">
                 </div>
 
-                <div class="col-md-4">
-                    <label for="national_id" class="form-label">نمبر تذکره</label>
-                    <input type="text" class="form-control" name="national_id">
-                </div>
+           
 
-                <div class="col-md-4">
-                    <label for="photo" class="form-label">عکس</label>
-                    <input type="file" class="form-control" name="photo">
-                </div>
+              
 
                 <div class="col-12">
                     <button class="btn btn-primary" type="submit">ذخیره</button>

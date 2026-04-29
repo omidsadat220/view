@@ -35,11 +35,9 @@
                             <th class="text-center">#</th>
                             <th class="text-center">نام</th>
                             <th class="text-center">تخلص</th>
-                            <th class="text-center">ولایت</th>
-                            <th class="text-center">ایمیل</th>
+                            <th class="text-center">معاش</th>
+                            <th class="text-center">وظیفه</th>
                             <th class="text-center">شماره تماس</th>
-                            <th class="text-center">نمبر تذکره</th>
-                            <th class="text-center">عکس </th>
                             <th class="text-center">عملیات</th>
                         </tr>
                         </thead>
@@ -49,17 +47,10 @@
                                     <td class="text-center">{{ $key+1 }}</td>
                                     <td class="text-center">{{ $item->name }}</td>
                                     <td class="text-center">{{ $item->lname }}</td>
-                                    <td class="text-center">{{ $item->province }}</td>
-                                    <td class="text-center">{{ $item->email }}</td>
+                                    <td class="text-center">{{ $item->salary }}</td>
+                                    <td class="text-center">{{ $item->position }}</td>
                                     <td class="text-center">{{ $item->phone }}</td>
-                                    <td class="text-center">{{ $item->national_id }}</td>
-                                    <td class="text-center">
-                                        @if($item->photo)
-                                            <img src="{{ asset($item->photo) }}" width="30" height="30" style="object-fit:cover;">
-                                        @else
-                                            بدون عکس
-                                        @endif
-                                    </td>
+                                  
                                     <td>
                                         <a href="{{ route('edit.employee', $item->id) }}" class="btn btn-success btn-sm">ویرایش</a>
                                         <a href="{{ route('delete.employee', $item->id) }}" id="delete" class="btn btn-danger btn-sm delete-confirm">حذف</a>

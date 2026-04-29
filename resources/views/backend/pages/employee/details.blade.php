@@ -28,12 +28,12 @@
 
                             <tr>
                                 <th>ولایت</th>
-                                <td>{{ $emp->province }}</td>
+                                <td>{{ $emp->salary }}</td>
                             </tr>
 
                             <tr>
                                 <th>ایمیل</th>
-                                <td>{{ $emp->email }}</td>
+                                <td>{{ $emp->position }}</td>
                             </tr>
 
                             <tr>
@@ -41,10 +41,7 @@
                                 <td>{{ $emp->phone }}</td>
                             </tr>
 
-                            <tr>
-                                <th>نمبر تذکره</th>
-                                <td>{{ $emp->national_id }}</td>
-                            </tr>
+                          
                         </table>
 
                         <h5 class="mb-3"> مصارف </h5>

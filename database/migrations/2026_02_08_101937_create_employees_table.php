@@ -15,11 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('lname');
-            $table->string('province')->nullable();
-            $table->string('email')->nullable();
+            $table->decimal('salary', 10, 2)->nullable();
+            $table->string('position')->nullable();
             $table->string('phone')->nullable();
-            $table->string('photo')->nullable();
-            $table->string('national_id')->nullable();
             $table->timestamps();
         });
     }
