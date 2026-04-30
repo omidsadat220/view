@@ -309,7 +309,7 @@
 
                 </div>
 
-            {{-- ---------------- Summary Card ---------------- --}}
+            {{-- ---------------- Summary Card 35%---------------- --}}
                 <div class="col-4 col-md-4 col-lg-4 d-flex justify-content-center">
 
                     <div class="card shadow-sm w-100 border-0">
@@ -320,9 +320,6 @@
                         <div class="card-body">
 
                             <div class="p-3 rounded" style="background:#f8f9fa;">
-
-
-                      
 
                                 <div class="d-flex justify-content-between mb-2">
                                     <span> مجموع :</span>
@@ -355,6 +352,55 @@
                     </div>
 
                 </div>
+
+
+                {{-- ---------------- Summary Card 35%---------------- --}}
+                <div class="col-4 col-md-4 col-lg-4 d-flex justify-content-center">
+
+                    <div class="card shadow-sm w-100 border-0">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h5 class="mb-0">خلاصه راپور ماهانه%45</h5>
+                        </div>
+
+                        <div class="card-body">
+
+                        
+
+
+                            <div class="p-3 rounded" style="background:#f8f9fa;">
+
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span> مجموع :</span>
+                                    <strong>{{ number_format($products->where('tax', 45)->sum('price'), 2) }}</strong>
+                                </div>
+
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>جمع پرداخت شده :</span>
+                                    <strong>{{ number_format($products->where('tax', 45)->sum('paied'), 2) }}</strong>
+                                </div>
+
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>جمع باقی مانده :</span>
+                                    <strong>{{ number_format($products->where('tax', 45)->sum('remaining'), 2) }}</strong>
+                                </div>
+
+                                <hr>
+
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>پرداخت  45 :</span>
+                                    <strong class="text-success">
+                                        {{ number_format(45, 2) }}
+                                    </strong>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
         </div>
