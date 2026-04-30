@@ -415,9 +415,23 @@ class ReportsController extends Controller
 
         $dailyExpensesTotal = $allExpenses->sum('amount');
 
+         // ✅ only today's paid
+    $totalPaid = Product::whereDate('created_at', $date)
+        ->sum('paied');
+
+    // ✅ only today's expenses
+    $dailyExpensesTotal = Expense::whereDate('date', $date)
+        ->sum('amount');
+
+    // ✅ remaining
+    $remaining = $totalPaid - $dailyExpensesTotal;
+
         return view('backend.pages.reports.all_reports.daily_expense_report', compact(
             'dailyExpenses',
-            'dailyExpensesTotal'
+            'dailyExpensesTotal',
+            'totalPaid',
+            'dailyExpensesTotal',
+            'remaining'
         ));
     }
 

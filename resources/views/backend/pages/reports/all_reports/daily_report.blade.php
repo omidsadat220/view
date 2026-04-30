@@ -13,33 +13,33 @@
 {{-- SUMMARY --}}
 <div class="row mb-4">
 
-    <div class="col-md-3">
+    {{-- <div class="col-md-3">
         <div class="card shadow p-3 text-center">
             <h6>مجموع قیمت امروز</h6>
             <h3>{{ number_format($products->sum('price'), 2) }}</h3>
         </div>
-    </div>
+    </div> --}}
 
-    <div class="col-md-3">
+    {{-- <div class="col-md-3">
         <div class="card shadow p-3 text-center">
             <h6>مجموع پرداخت امروز</h6>
             <h3>{{ number_format($products->sum('paied'), 2) }}</h3>
         </div>
-    </div>
+    </div> --}}
 
-    <div class="col-md-3">
+    {{-- <div class="col-md-3">
         <div class="card shadow p-3 text-center">
             <h6>مجموع باقی‌مانده امروز</h6>
             <h3>{{ number_format($products->sum('remaining'), 2) }}</h3>
         </div>
-    </div>
+    </div> --}}
 
-    <div class="col-md-3">
+    {{-- <div class="col-md-3">
         <div class="card shadow p-3 text-center">
             <h6>مجموع مفاد امروز</h6>
             <h3>{{ number_format($products->sum('tax'), 2) }}</h3>
         </div>
-    </div>
+    </div> --}}
 
 </div>
 

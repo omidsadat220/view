@@ -166,7 +166,7 @@
                 <li>
                     <a href="{{ route('daily.report') }}" >
                         <i data-feather="bar-chart-2"></i>
-                        <span> مفاد روزانه </span>
+                        <span> گزارش روزانه </span>
                     </a>
                 </li>
 

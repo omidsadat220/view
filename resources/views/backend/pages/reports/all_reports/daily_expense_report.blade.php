@@ -15,13 +15,26 @@
 
     {{-- SUMMARY CARD --}}
     <div class="row mb-4">
-        <div class="col-md-12">
-            <div class="card shadow p-3 text-center bg-danger text-white">
-                <h5>مجموع مصارف امروز</h5>
-                <h2>{{ number_format($dailyExpensesTotal, 2) }}</h2>
-            </div>
-        </div>
+<div class="col-md-4">
+    <div class="card shadow p-3 text-center bg-info text-white">
+        <h5>مجموع پرداخت امروز</h5>
+        <h2>{{ number_format($totalPaid, 2) }}</h2>
     </div>
+</div>
+
+<div class="col-md-4">
+    <div class="card shadow p-3 text-center bg-danger text-white">
+        <h5>مجموع مصارف امروز</h5>
+        <h2>{{ number_format($dailyExpensesTotal, 2) }}</h2>
+    </div>
+</div>
+
+<div class="col-md-4">
+    <div class="card shadow p-3 text-center bg-success text-white">
+        <h5>باقی‌مانده امروز</h5>
+        <h2>{{ number_format($remaining, 2) }}</h2>
+    </div>
+</div>
 
 
     {{-- TABLE --}}
